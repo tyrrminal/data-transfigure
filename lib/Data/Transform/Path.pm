@@ -26,7 +26,7 @@ class Data::Transform::Path :isa(Data::Transform::Base) {
     }
     return $rv;
   }
-  
+
 }
 
 1;

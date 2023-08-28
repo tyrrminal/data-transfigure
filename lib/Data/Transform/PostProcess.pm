@@ -10,7 +10,7 @@ class Data::Transform::PostProcess :isa(Data::Transform::Base) {
   method applies_to($node, $position) {
     return $position eq $PATH_SEPARATOR;
   }
-  
+
 }
 
 1;

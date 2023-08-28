@@ -33,7 +33,7 @@ class Data::Transform::Type :isa(Data::Transform::Base) {
     }
     return $rv;
   }
-  
+
 }
 
 1;

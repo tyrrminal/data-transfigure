@@ -11,7 +11,7 @@ class Data::Transform::Undef :isa(Data::Transform::Base) {
     return $MATCH_EXACT_TYPE if(!defined($node));
     return $NO_MATCH;
   }
-  
+
 }
 
 1;

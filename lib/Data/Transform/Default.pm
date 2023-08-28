@@ -10,7 +10,7 @@ class Data::Transform::Default :isa(Data::Transform::Base) {
   method applies_to($node, $position) {
     return $MATCH_DEFAULT;
   }
-  
+
 }
 
 1;

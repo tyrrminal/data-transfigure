@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
- 
+
 use Test2::V0;
- 
+
 use Data::Transform qw(hk_rewrite_cb);
 
 my $t = {

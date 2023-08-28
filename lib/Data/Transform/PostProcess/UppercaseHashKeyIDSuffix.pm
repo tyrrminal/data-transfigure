@@ -15,7 +15,7 @@ class Data::Transform::PostProcess::UppercaseHashKeyIDSuffix :isa(Data::Transfor
       }
     )
   }
-  
+
 }
 
 1;

@@ -24,7 +24,7 @@ class Data::Transform::Type::Nested :isa(Data::Transform::Base) {
       return $MATCH_EXACT if(ref($node) eq $t);
     }
   }
-  
+
 }
 
 1;

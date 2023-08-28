@@ -5,6 +5,8 @@ use warnings;
 use Object::Pad;
 
 class Data::Transform 1.00 {
+  use Exporter qw(import);
+
   use Data::Transform::Type::Nested;
   use Data::Transform::Default;
   use Data::Transform::Undef;
@@ -16,6 +18,21 @@ class Data::Transform 1.00 {
   use Scalar::Util qw(blessed);
 
   field @transformers;
+
+  our @EXPORT_OK = qw(hk_rewrite_cb);
+
+  sub hk_rewrite_cb($h, $cb) {
+    if(ref($h) eq 'HASH') {
+      foreach (keys($h->%*)) {
+        hk_rewrite_cb($h->{$cb->($_)} = delete($h->{$_}), $cb)
+      }
+    } elsif(ref($h) eq 'ARRAY') {
+      foreach my $o ($h->@*) {
+        hk_rewrite_cb($o, $cb);
+      }
+    }
+    return $h;
+  }
 
   my sub path_join ($base, $add) {
     return join($PATH_SEPARATOR, ($base, $add));

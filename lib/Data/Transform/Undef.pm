@@ -4,8 +4,16 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Undef :isa(Data::Transform::Base) {
+use Data::Transform::Value;
+class Data::Transform::Undef :isa(Data::Transform::Value) {
   use Data::Transform::Constants;
+
+  sub BUILDARGS($class, @args) {
+    $class->SUPER::BUILDARGS(
+      value => undef,
+      @args,
+    );
+  }
 
   method applies_to($node, $position) {
     return $MATCH_EXACT_TYPE if(!defined($node));

@@ -35,7 +35,7 @@ class Data::Transform 1.00 {
   }
 
   my sub path_join ($base, $add) {
-    return join($PATH_SEPARATOR, ($base, $add));
+    return join($PATH_SEPARATOR, ($base eq $PATH_SEPARATOR ? '' : $base, $add));
   }
 
   my sub _transform ($data, $path, $transformers) {

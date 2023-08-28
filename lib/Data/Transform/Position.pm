@@ -4,15 +4,15 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Path :isa(Data::Transform::Base) {
+class Data::Transform::Position :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
-  field $path :param;
+  field $path :param(position);
 
   my sub wildcard_to_regex($str) {
     $str =~ s|[.]|\\.|g; 
     $str =~ s|[*]|.*|g;
-    return qr/$str/;
+    return qr/^$str$/;
   }
 
   method applies_to($node, $position) {
@@ -25,6 +25,10 @@ class Data::Transform::Path :isa(Data::Transform::Base) {
       $rv = $MATCH_WILDCARD_PATH if($position =~ $re);
     }
     return $rv;
+  }
+  
+  method transform(@args) {
+    return $self->SUPER::transform(@args);
   }
 
 }

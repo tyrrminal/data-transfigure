@@ -1,13 +1,16 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Object::Pad;
+
 class Data::Transform::Path :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
   field $path :param;
 
   my sub wildcard_to_regex($str) {
-    $str =~ s|[.]|\\.|g 
+    $str =~ s|[.]|\\.|g; 
     $str =~ s|[*]|.*|g;
     return qr/$str/;
   }
@@ -23,6 +26,7 @@ class Data::Transform::Path :isa(Data::Transform::Base) {
     }
     return $rv;
   }
+  
 }
 
 1;

@@ -1,19 +1,19 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Object::Pad;
+
 class Data::Transform::Base {
   use Data::Transform::Constants;
 
-  field $handler :param //= undef;
-
-  method _set_handler($h) { $handler = $h }
+  field $handler :param;
 
   method applies_to($node, $position) {
     return $NO_MATCH;
   }
 
   method transform(@args) {
-    say STDERR ref($self) unless(defined($handler));
     return $handler->(@args)
   }
 }

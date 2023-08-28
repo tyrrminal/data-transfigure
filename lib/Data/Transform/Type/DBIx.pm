@@ -1,17 +1,21 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
+
+use Object::Pad;
 
 use Data::Transform::Type;
-use Object::Pad;
 class Data::Transform::Type::DBIx :isa(Data::Transform::Type) {
-  ADJUST {
-    $self->_set_type(qw(DBIx::Class::Row));
 
-    $self->_set_handler(
-      sub ($data) {
-        return {$data->get_inflated_columns};
+  sub BUILDARGS($class) {
+    $class->SUPER::BUILDARGS(
+      type => qw(DBIx::Class::Row),
+      handler => sub ($data) {
+        return {$data->get_inflated_columns}
       }
-    )
+    );
   }
+
 }
 
 1;

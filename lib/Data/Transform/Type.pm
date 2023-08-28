@@ -1,20 +1,17 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Object::Pad;
+
 class Data::Transform::Type :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
   use Scalar::Util qw(blessed);
 
-  field $type :param //= undef;
+  field $type :param;
 
   ADJUST {
-    $self->_check_type();
-  }
-
-  method _set_type($t) { $type = $t; $self->_check_type() }
-
-  method _check_type() {
     foreach my $t (grep {defined} $self->types()) {
       die("$t cannot be used with Data::Transform::Type - use Data::Transform::Nested") if($t eq 'ARRAY' || $t eq 'HASH');
     }
@@ -36,6 +33,7 @@ class Data::Transform::Type :isa(Data::Transform::Base) {
     }
     return $rv;
   }
+  
 }
 
 1;

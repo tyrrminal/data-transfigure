@@ -1,6 +1,9 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Object::Pad;
+
 class Data::Transform::Type::Nested :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
@@ -21,6 +24,7 @@ class Data::Transform::Type::Nested :isa(Data::Transform::Base) {
       return $MATCH_EXACT if(ref($node) eq $t);
     }
   }
+  
 }
 
 1;

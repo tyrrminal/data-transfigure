@@ -1,5 +1,7 @@
 package Data::Transform::Constants;
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Exporter qw(import);
 use Readonly;

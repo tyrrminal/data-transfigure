@@ -1,7 +1,10 @@
 use v5.26;
+use warnings;
+# ABSTRACT: turns baubles into trinkets
 
 use Object::Pad;
-class Data::Transform {
+
+class Data::Transform 1.00 {
   use Data::Transform::Type::Nested;
   use Data::Transform::Default;
   use Data::Transform::Undef;

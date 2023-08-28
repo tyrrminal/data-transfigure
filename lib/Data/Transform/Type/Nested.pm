@@ -23,6 +23,7 @@ class Data::Transform::Type::Nested :isa(Data::Transform::Base) {
     foreach my $t ($self->types()) {
       return $MATCH_EXACT if(ref($node) eq $t);
     }
+    return $NO_MATCH;
   }
 
 }

@@ -47,7 +47,7 @@ class Data::Transform {
 
     $self->register(
       Data::Transform::Type::Nested->new(
-        type => $ARRAY_REF_TYPE, 
+        type => 'ARRAY', 
         handler => sub ($data, $path) {
           my $i = 0;
           return [map {_transform($_, path_join($path, $i++), [@transformers])} $data->@*];
@@ -57,7 +57,7 @@ class Data::Transform {
 
     $self->register(
       Data::Transform::Type::Nested->new(
-        type => $HASH_REF_TYPE,
+        type => 'HASH',
         handler => sub ($data, $path) {
           return {map {$_ => _transform($data->{$_}, path_join($path, $_), [@transformers])} keys($data->%*)};
         }

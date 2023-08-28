@@ -7,9 +7,6 @@ use Readonly;
 our @EXPORT = qw(
   $PATH_SEPARATOR
 
-  $ARRAY_REF_TYPE
-  $HASH_REF_TYPE
-
   $NO_MATCH
   $MATCH_DEFAULT
   $MATCH_INHERITED_TYPE
@@ -21,9 +18,6 @@ our @EXPORT = qw(
 );
 
 Readonly::Scalar our $PATH_SEPARATOR => q{/};
-
-Readonly::Scalar our $ARRAY_REF_TYPE => ref([]);
-Readonly::Scalar our $HASH_REF_TYPE  => ref({});
 
 Readonly::Scalar our $NO_MATCH             => 0;
 Readonly::Scalar our $MATCH_DEFAULT        => 1;

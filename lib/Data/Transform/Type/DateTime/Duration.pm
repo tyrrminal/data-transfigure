@@ -1,7 +1,7 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
 use Data::Transform::Type;
+use Object::Pad;
 class Data::Transform::Type::DateTime::Duration :isa(Data::Transform::Type) {
   ADJUST {
     $self->_set_type(qw(DateTime::Duration));
@@ -13,3 +13,5 @@ class Data::Transform::Type::DateTime::Duration :isa(Data::Transform::Type) {
     )
   }
 }
+
+1;

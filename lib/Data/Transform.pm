@@ -1,7 +1,6 @@
-use v5.38;
-use experimental qw(class builtin);
-use builtin      qw(true false);
+use v5.26;
 
+use Object::Pad;
 class Data::Transform {
   use Data::Transform::Type::Nested;
   use Data::Transform::Default;
@@ -82,3 +81,5 @@ class Data::Transform {
   }
 
 }
+
+1;

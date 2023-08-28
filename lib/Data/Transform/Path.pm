@@ -1,6 +1,6 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
+use Object::Pad;
 class Data::Transform::Path :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
@@ -24,3 +24,5 @@ class Data::Transform::Path :isa(Data::Transform::Base) {
     return $rv;
   }
 }
+
+1;

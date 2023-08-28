@@ -1,7 +1,7 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
 use Data::Transform::PostProcess;
+use Object::Pad;
 class Data::Transform::PostProcess::EndsInID :isa(Data::Transform::PostProcess) {
   use DCS::Util::NameConversion qw(convert_hash_keys);
 
@@ -12,3 +12,5 @@ class Data::Transform::PostProcess::EndsInID :isa(Data::Transform::PostProcess) 
     });
   }
 }
+
+1;

@@ -1,6 +1,6 @@
-use v5.38;
-use experimental qw(builtin class);
+use v5.26;
 
+use Object::Pad;
 class Data::Transform::Base {
   use Data::Transform::Constants;
 
@@ -17,3 +17,5 @@ class Data::Transform::Base {
     return $handler->(@args)
   }
 }
+
+1;

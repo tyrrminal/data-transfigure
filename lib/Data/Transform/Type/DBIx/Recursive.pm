@@ -1,7 +1,7 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
 use Data::Transform::Type;
+use Object::Pad;
 class Data::Transform::Type::DBIx::Recursive :isa(Data::Transform::Type) {
 
   ADJUST {
@@ -21,3 +21,5 @@ class Data::Transform::Type::DBIx::Recursive :isa(Data::Transform::Type) {
   }
 
 }
+
+1;

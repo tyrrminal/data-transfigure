@@ -1,5 +1,5 @@
 package Data::Transform::Constants;
-use v5.38;
+use v5.26;
 
 use Exporter qw(import);
 use Readonly;
@@ -33,3 +33,5 @@ Readonly::Scalar our $MATCH_WILDCARD_PATH  => 4;
 Readonly::Scalar our $MATCH_EXACT_PATH     => 5;
 Readonly::Scalar our $MATCH_CORE_REF_TYPE  => 6;
 Readonly::Scalar our $MATCH_EXACT          => 100;
+
+1;

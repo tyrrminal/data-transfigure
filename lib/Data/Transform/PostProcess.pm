@@ -1,6 +1,6 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
+use Object::Pad;
 class Data::Transform::PostProcess :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
@@ -8,3 +8,5 @@ class Data::Transform::PostProcess :isa(Data::Transform::Base) {
     return $position eq $PATH_SEPARATOR;
   }
 }
+
+1;

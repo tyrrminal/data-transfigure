@@ -1,6 +1,6 @@
-use v5.38;
-use experimental qw(class);
+use v5.26;
 
+use Object::Pad;
 class Data::Transform::Default :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
@@ -9,3 +9,5 @@ class Data::Transform::Default :isa(Data::Transform::Base) {
   }
   
 }
+
+1;

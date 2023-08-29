@@ -20,9 +20,9 @@ class Data::Transform::Position :isa(Data::Transform::Base) {
     my @paths = ref($path) eq 'ARRAY' ? $path->@* : ($path);
 
     foreach (@paths) {
-      return $MATCH_EXACT_PATH if($position eq $_);
+      return $MATCH_EXACT_POSITION if($position eq $_);
       my $re = wildcard_to_regex($_);
-      $rv = $MATCH_WILDCARD_PATH if($position =~ $re);
+      $rv = $MATCH_WILDCARD_POSITION if($position =~ $re);
     }
     return $rv;
   }

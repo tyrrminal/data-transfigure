@@ -6,6 +6,7 @@ use Object::Pad;
 
 use Data::Transform::Type;
 class Data::Transform::Type::DateTime::Duration :isa(Data::Transform::Type) {
+  use DateTime::Format::Duration::ISO8601;
 
   sub BUILDARGS($class) {
     $class->SUPER::BUILDARGS(

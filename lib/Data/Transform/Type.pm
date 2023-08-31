@@ -24,11 +24,9 @@ class Data::Transform::Type :isa(Data::Transform::Base) {
   method applies_to($node, $position) {
     my $rv = $NO_MATCH;
     if(my $r = ref($node)) {
-      if(blessed($node)) {
-        foreach ($self->types()) {
-          return $MATCH_EXACT_TYPE if($r eq $_);
-          $rv = $MATCH_INHERITED_TYPE if($node->isa($_));
-        }
+      foreach ($self->types()) {
+        return $MATCH_EXACT_TYPE if($r eq $_);
+        $rv = $MATCH_INHERITED_TYPE if(blessed($node) && $node->isa($_));
       }
     }
     return $rv;

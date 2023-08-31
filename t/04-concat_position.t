@@ -8,13 +8,15 @@ use Test2::Tools::Exception qw(dies);
 use Data::Transform qw(concat_position);
 my $ps = $Data::Transform::POSITION_SEP;
 
-like( dies { concat_position() }, 
-  qr/Too few arguments for subroutine 'Data::Transform::concat_position' \(got 0; expected 2\)/, 
-  'no arguments to concat_position');
+like(
+  dies {concat_position()},
+  qr/Too few arguments for subroutine 'Data::Transform::concat_position' \(got 0; expected 2\)/,
+  'no arguments to concat_position'
+);
 
 is(concat_position(undef, undef), $ps, 'concat undef with undef');
-is(concat_position('', undef), $ps, 'concat empty with undef');
-is(concat_position(undef, ''), $ps, 'concat undef with empty');
+is(concat_position('',    undef), $ps, 'concat empty with undef');
+is(concat_position(undef, ''),    $ps, 'concat undef with empty');
 
 my $base;
 

@@ -10,15 +10,17 @@ use Data::Transform::Type;
 use Data::Transform::PostProcess;
 use List::Util qw(sum);
 
-my $count_values = Data::Transform::PostProcess->new(handler => sub($o) {
-  if(ref($o) eq 'ARRAY') {
-    return sum map { __SUB__->($_) } $o->@*
-  } elsif(ref($o) eq 'HASH') {
-    return sum map { __SUB__->($_) } values($o->%*)
+my $count_values = Data::Transform::PostProcess->new(
+  handler => sub ($o) {
+    if (ref($o) eq 'ARRAY') {
+      return sum map {__SUB__->($_)} $o->@*;
+    } elsif (ref($o) eq 'HASH') {
+      return sum map {__SUB__->($_)} values($o->%*);
+    }
+    return 1;
   }
-  return 1;
-});
+);
 
-is($count_values->transform({a => 1, b => 2, c => { d => 4 }}), 3, 'count values recursive');
+is($count_values->transform({a => 1, b => 2, c => {d => 4}}), 3, 'count values recursive');
 
 done_testing;

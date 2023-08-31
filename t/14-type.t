@@ -9,36 +9,42 @@ use Test2::Tools::Exception qw(dies);
 use Data::Transform::Type;
 use Data::Transform::Constants;
 
-like(dies { Data::Transform::Type->new(type => 'HASH', handler => sub{}) },
+like(
+  dies {
+    Data::Transform::Type->new(type => 'HASH', handler => sub { })
+  },
   qr/^HASH cannot be used with Data::Transform::Type - use Data::Transform::Hash/,
   'check that HASH is not allowed'
 );
-like(dies { Data::Transform::Type->new(type => 'ARRAY', handler => sub{}) },
+like(
+  dies {
+    Data::Transform::Type->new(type => 'ARRAY', handler => sub { })
+  },
   qr/^ARRAY cannot be used with Data::Transform::Type - use Data::Transform::Array/,
   'check that ARRAY is not allowed'
 );
 
 my $d = Data::Transform::Type->new(
-  type => 'MyTestClass',
-  handler => sub{}
+  type    => 'MyTestClass',
+  handler => sub { }
 );
 
 is([$d->types()], ['MyTestClass'], 'check single type');
 
 $d = Data::Transform::Type->new(
-  type => [qw(DateTime DateTime::Duration DBIx::Class::Row)],
-  handler => sub{}
+  type    => [qw(DateTime DateTime::Duration DBIx::Class::Row)],
+  handler => sub { }
 );
 
 is([$d->types()], ['DateTime', 'DateTime::Duration', 'DBIx::Class::Row'], 'check multi types');
 
-my $class = 'MyApp::Model::Result::Person';
-my $person = bless({ id => 3, name => 'bob'}, $class);
+my $class  = 'MyApp::Model::Result::Person';
+my $person = bless({id => 3, name => 'bob'}, $class);
 
 $d = Data::Transform::Type->new(
-  type => $class,
+  type    => $class,
   handler => sub ($entity) {
-    return {name => $entity->{name} }
+    return {name => $entity->{name}};
   }
 );
 

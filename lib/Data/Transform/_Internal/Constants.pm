@@ -1,4 +1,4 @@
-package Data::Transform::Constants;
+package Data::Transform::_Internal::Constants;
 use v5.26;
 use warnings;
 # ABSTRACT: turns baubles into trinkets

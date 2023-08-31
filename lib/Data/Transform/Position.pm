@@ -5,7 +5,7 @@ use warnings;
 use Object::Pad;
 
 class Data::Transform::Position : isa(Data::Transform::Base) {
-  use Data::Transform::Constants;
+  use Data::Transform::_Internal::Constants;
 
   field $path : param(position);
 

@@ -5,7 +5,7 @@ use warnings;
 use Object::Pad;
 
 class Data::Transform::Value : isa(Data::Transform::Base) {
-  use Data::Transform::Constants;
+  use Data::Transform::_Internal::Constants;
 
   field $value : param;
 

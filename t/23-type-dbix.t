@@ -6,7 +6,7 @@ use experimental qw(signatures);
 use Test2::V0;
 
 use Data::Transform::Type::DBIx;
-use Data::Transform::Constants;
+use Data::Transform::_Internal::Constants;
 
 my $d = Data::Transform::Type::DBIx->new();
 

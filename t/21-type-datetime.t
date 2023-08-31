@@ -6,7 +6,7 @@ use Test2::V0;
 
 use DateTime;
 use Data::Transform::Type::DateTime;
-use Data::Transform::Constants;
+use Data::Transform::_Internal::Constants;
 
 my $dt = DateTime->new(year => 2000, month => 1, day => 1);
 my $d  = Data::Transform::Type::DateTime->new();

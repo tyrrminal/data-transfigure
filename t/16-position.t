@@ -7,7 +7,7 @@ use Test2::V0;
 
 use Data::Transform qw(concat_position);
 use Data::Transform::Position;
-use Data::Transform::Constants;
+use Data::Transform::_Internal::Constants;
 
 my $book_1 = bless({id => 3, title => "War and Peace"},        'MyApp::Model::Result::Book');
 my $book_2 = bless({id => 4, title => "A Tale of Two Cities"}, 'MyApp::Model::Result::Book');

@@ -5,7 +5,7 @@ use warnings;
 use Object::Pad;
 
 class Data::Transform::Default : isa(Data::Transform::Base) {
-  use Data::Transform::Constants;
+  use Data::Transform::_Internal::Constants;
 
   method applies_to(%params) {
     return $MATCH_DEFAULT;

@@ -7,8 +7,6 @@ use Exporter qw(import);
 use Readonly;
 
 our @EXPORT = qw(
-  $PATH_SEPARATOR
-
   $NO_MATCH
   $MATCH_DEFAULT
   $MATCH_INHERITED_TYPE
@@ -20,8 +18,6 @@ our @EXPORT = qw(
   $MATCH_CORE_REF_TYPE
   $MATCH_EXACT
 );
-
-Readonly::Scalar our $PATH_SEPARATOR => q{/};
 
 Readonly::Scalar our $NO_MATCH                 => -1;
 Readonly::Scalar our $MATCH_DEFAULT            => 1;

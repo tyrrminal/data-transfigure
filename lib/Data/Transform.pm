@@ -17,10 +17,13 @@ class Data::Transform 1.00 {
   use List::Util   qw(max);
   use Module::Util qw(module_path);
   use Scalar::Util qw(blessed);
+  use Readonly;
 
   field @transformers;
 
-  our @EXPORT_OK = qw(hk_rewrite_cb);
+  Readonly::Scalar our $POSITION_SEP => q{/};
+
+  our @EXPORT_OK = qw(hk_rewrite_cb concat_position);
 
   sub hk_rewrite_cb($h, $cb) {
     if(ref($h) eq 'HASH') {
@@ -35,8 +38,12 @@ class Data::Transform 1.00 {
     return $h;
   }
 
-  my sub path_join ($base, $add) {
-    return join($PATH_SEPARATOR, ($base eq $PATH_SEPARATOR ? '' : $base, $add));
+  sub concat_position ($base, $add) {
+    $base //= q{};
+    $add //= q{};
+    $base =~ s/[$POSITION_SEP]+$//;
+    $add =~ s/^[$POSITION_SEP]+//;
+    return join($POSITION_SEP, ($base eq $POSITION_SEP ? '' : $base, $add));
   }
 
   my sub _transform ($data, $path, $transformers) {
@@ -71,7 +78,7 @@ class Data::Transform 1.00 {
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
-          return [map {_transform($_, path_join($path, $i++), [@transformers])} $data->@*];
+          return [map {_transform($_, concat_position($path, $i++), [@transformers])} $data->@*];
         }
       )
     );
@@ -79,7 +86,7 @@ class Data::Transform 1.00 {
     $self->register(
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
-          return {map {$_ => _transform($data->{$_}, path_join($path, $_), [@transformers])} keys($data->%*)};
+          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [@transformers])} keys($data->%*)};
         }
       )
     );
@@ -95,7 +102,7 @@ class Data::Transform 1.00 {
   }
 
   method transform($data) {
-    my $d = _transform($data, $PATH_SEPARATOR, [grep { !$_->isa('Data::Transform::PostProcess') } @transformers]);
+    my $d = _transform($data, $POSITION_SEP, [grep { !$_->isa('Data::Transform::PostProcess') } @transformers]);
     foreach (grep { $_->isa('Data::Transform::PostProcess') } @transformers) { $d = $_->transform($d); }
     return $d;
   }

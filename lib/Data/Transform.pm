@@ -49,7 +49,7 @@ class Data::Transform 1.00 {
   my sub _transform ($data, $path, $transformers) {
     my @match;
     for(my $i=0; $i<$transformers->@*; $i++) {
-      my $v = $transformers->[$i]->applies_to($data, $path);
+      my $v = $transformers->[$i]->applies_to(value => $data, position => $path);
       push(@match, [$v, $i, $transformers->[$i]]) if($v != $NO_MATCH);
     }
     return $data unless(@match);

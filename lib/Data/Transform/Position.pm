@@ -15,7 +15,10 @@ class Data::Transform::Position :isa(Data::Transform::Base) {
     return qr/^$str$/;
   }
 
-  method applies_to($node, $position) {
+  method applies_to(%params) {
+    die('position is a required parameter for Data::Transform::Position->applies_to') unless(exists($params{position}));
+    my $position = $params{position};
+
     my $rv = $NO_MATCH;
     my @paths = ref($path) eq 'ARRAY' ? $path->@* : ($path);
 

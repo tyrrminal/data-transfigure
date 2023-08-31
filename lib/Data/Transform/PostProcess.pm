@@ -7,7 +7,7 @@ use Object::Pad;
 class Data::Transform::PostProcess :isa(Data::Transform::Base) {
   use Data::Transform::Constants;
 
-  method applies_to($node, $position) {
+  method applies_to(%params) {
     return $MATCH_EXACT_POSITION;
   }
 

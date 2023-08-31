@@ -20,10 +20,10 @@ my $o = {
   c => "3",
 };
 
-is($d->applies_to($o, '/'), $NO_MATCH, 'check undef applies_to (hash)');
-is($d->applies_to($o->{a}, '/a'), $NO_MATCH, 'check undef applies_to (num)');
-is($d->applies_to($o->{b}, '/b'), $MATCH_EXACT_TYPE, 'check undef applies_to (undef)');
-is($d->applies_to($o->{c}, '/c'), $NO_MATCH, 'check undef applies_to (str)');
+is($d->applies_to(value => $o), $NO_MATCH, 'check undef applies_to (hash)');
+is($d->applies_to(value => $o->{a}), $NO_MATCH, 'check undef applies_to (num)');
+is($d->applies_to(value => $o->{b}), $MATCH_EXACT_TYPE, 'check undef applies_to (undef)');
+is($d->applies_to(value => $o->{c}), $NO_MATCH, 'check undef applies_to (str)');
 
 is($d->transform($o), '__UNDEF__', 'transform undef (hash)');
 is($d->transform($o->{a}), '__UNDEF__', 'transform undef (num)');

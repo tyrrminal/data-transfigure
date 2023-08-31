@@ -21,7 +21,10 @@ class Data::Transform::Type :isa(Data::Transform::Base) {
     return ref($type) eq 'ARRAY' ? $type->@* : $type;
   }
 
-  method applies_to($node, $position) {
+  method applies_to(%params) {
+    die('value is a required parameter for Data::Transform::Type->applies_to') unless(exists($params{value}));
+    my $node = $params{value};
+
     my $rv = $NO_MATCH;
     if(my $r = ref($node)) {
       foreach ($self->types()) {

@@ -30,11 +30,11 @@ my $o = {
   d => 'the cat jumped over the moon'
 };
 
-is($d->applies_to($o, '/'), $NO_MATCH, 'num value applies_to (hash)');
-is($d->applies_to($o->{a}, '/a'), $NO_MATCH, 'num value applies_to (1)');
-is($d->applies_to($o->{b}, '/b'), $MATCH_EXACT_VALUE, 'num value applies_to (7)');
-is($d->applies_to($o->{c}, '/c'), $NO_MATCH, 'num value applies_to (3)');
-is($d->applies_to($o->{d}, '/d'), $NO_MATCH, 'num value applies_to (str)');
+is($d->applies_to(value => $o),      $NO_MATCH, 'num value applies_to (hash)');
+is($d->applies_to(value => $o->{a}), $NO_MATCH, 'num value applies_to (1)');
+is($d->applies_to(value => $o->{b}), $MATCH_EXACT_VALUE, 'num value applies_to (7)');
+is($d->applies_to(value => $o->{c}), $NO_MATCH, 'num value applies_to (3)');
+is($d->applies_to(value => $o->{d}), $NO_MATCH, 'num value applies_to (str)');
 
 is($d->transform($o->{b}), 9, 'num value transform');
 
@@ -45,11 +45,11 @@ $d = Data::Transform::Value->new(
   }
 );
 
-is($d->applies_to($o, '/'),       $NO_MATCH,          'regex value applies_to (hash)');
-is($d->applies_to($o->{a}, '/a'), $NO_MATCH,          'regex value applies_to (1)');
-is($d->applies_to($o->{b}, '/b'), $NO_MATCH,          'regex value applies_to (7)');
-is($d->applies_to($o->{c}, '/c'), $NO_MATCH,          'regex value applies_to (3)');
-is($d->applies_to($o->{d}, '/d'), $MATCH_LIKE_VALUE,  'regex value applies_to (str)');
+is($d->applies_to(value => $o),      $NO_MATCH,          'regex value applies_to (hash)');
+is($d->applies_to(value => $o->{a}), $NO_MATCH,          'regex value applies_to (1)');
+is($d->applies_to(value => $o->{b}), $NO_MATCH,          'regex value applies_to (7)');
+is($d->applies_to(value => $o->{c}), $NO_MATCH,          'regex value applies_to (3)');
+is($d->applies_to(value => $o->{d}), $MATCH_LIKE_VALUE,  'regex value applies_to (str)');
 
 is($d->transform($o->{d}), 'the dog jumped over the moon', 'regex value transform');
 
@@ -60,11 +60,11 @@ $d = Data::Transform::Value->new(
   }
 );
 
-is($d->applies_to($o, '/'),       $NO_MATCH,          'code value applies_to (hash)');
-is($d->applies_to($o->{a}, '/a'), $MATCH_LIKE_VALUE,  'code value applies_to (1)');
-is($d->applies_to($o->{b}, '/b'), $NO_MATCH,          'code value applies_to (7)');
-is($d->applies_to($o->{c}, '/c'), $MATCH_LIKE_VALUE,  'code value applies_to (3)');
-is($d->applies_to($o->{d}, '/d'), $NO_MATCH,          'code value applies_to (str)');
+is($d->applies_to(value => $o),      $NO_MATCH,          'code value applies_to (hash)');
+is($d->applies_to(value => $o->{a}), $MATCH_LIKE_VALUE,  'code value applies_to (1)');
+is($d->applies_to(value => $o->{b}), $NO_MATCH,          'code value applies_to (7)');
+is($d->applies_to(value => $o->{c}), $MATCH_LIKE_VALUE,  'code value applies_to (3)');
+is($d->applies_to(value => $o->{d}), $NO_MATCH,          'code value applies_to (str)');
 
 is($d->transform($o->{a}), -1, 'regex value transform (a)');
 is($d->transform($o->{c}), -1, 'regex value transform (c)');

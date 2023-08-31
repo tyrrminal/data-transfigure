@@ -48,10 +48,10 @@ my $o = {
   c => [qw(d e f)],
 };
 
-is($d->applies_to($o, '/'),       $NO_MATCH,         'check type applies_to (hash)');
-is($d->applies_to($o->{a}, '/a'), $NO_MATCH,         'check type applies_to (num)');
-is($d->applies_to($o->{b}, '/b'), $MATCH_EXACT_TYPE, 'check type applies_to (person obj)');
-is($d->applies_to($o->{c}, '/c'), $NO_MATCH,         'check type applies_to (array)');
+is($d->applies_to(value => $o),      $NO_MATCH,         'check type applies_to (hash)');
+is($d->applies_to(value => $o->{a}), $NO_MATCH,         'check type applies_to (num)');
+is($d->applies_to(value => $o->{b}), $MATCH_EXACT_TYPE, 'check type applies_to (person obj)');
+is($d->applies_to(value => $o->{c}), $NO_MATCH,         'check type applies_to (array)');
 
 is($d->transform($o->{b}), {name => 'bob'}, 'basic base transform');
 

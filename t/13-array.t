@@ -13,8 +13,8 @@ like( dies { Data::Transform::Array->new(type => 'CODE', handler => sub{}) } ,
 );
 
 my $n = Data::Transform::Array->new(handler => sub{});
-is($n->applies_to({}, '/'), $NO_MATCH, 'check that not applies_to hash');
-is($n->applies_to(bless([], 'MyClass'), '/'), $NO_MATCH, 'check that not applies_to blessed array');
-is($n->applies_to([], '/'), $MATCH_EXACT, 'check that applies_to array');
+is($n->applies_to(value => {}), $NO_MATCH, 'check that not applies_to hash');
+is($n->applies_to(value => bless([], 'MyClass')), $NO_MATCH, 'check that not applies_to blessed array');
+is($n->applies_to(value => []), $MATCH_EXACT, 'check that applies_to array');
 
 done_testing;

@@ -18,8 +18,8 @@ my $schema = MyApp::Schema->connect('dbi:SQLite:dbname=:memory:','','');
 my $author = $schema->resultset('Person')->new({firstname => 'Brandon', lastname => 'Sanderson' });
 my $book = $schema->resultset('Book')->new({ title => 'The Final Empire', author => $author });
 
-ok($d->applies_to($author, '/'), $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (person)');
-ok($d->applies_to($book, '/'), $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (book)');
+ok($d->applies_to(value => $author), $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (person)');
+ok($d->applies_to(value => $book), $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (book)');
 
 ok($d->transform($author), { id => 1, firstname => 'Brandon', lastname => 'Sanderson' }, 'dbix-recursive transform (person)');
 ok($d->transform($book), { id => 1, title => 'The Final Empire', author => { id => 1, firstname => 'Brandon' } }, 'dbix-recursive transform (book)');

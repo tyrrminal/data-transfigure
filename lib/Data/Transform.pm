@@ -7,7 +7,8 @@ use Object::Pad;
 class Data::Transform 1.00 {
   use Exporter qw(import);
 
-  use Data::Transform::Type::Nested;
+  use Data::Transform::Hash;
+  use Data::Transform::Array;
   use Data::Transform::Default;
   use Data::Transform::Undef;
 
@@ -49,9 +50,10 @@ class Data::Transform 1.00 {
     my $best_match = max(map { $_->[0] } @match);
     @match = sort { $b->[1] - $a->[1] } grep { $_->[0] == $best_match } @match;
     my $transformer = $match[0]->[2];
+    my $nested = $transformer->isa('Data::Transform::Array') || $transformer->isa('Data::Transform::Hash');
 
-    my $d = $transformer->isa('Data::Transform::Type::Nested') ? $transformer->transform($data, $path) : $transformer->transform($data);
-    $d = __SUB__->($d, $path, $transformers) if(ref($d) && !$transformer->isa('Data::Transform::Type::Nested'));
+    my $d = $nested ? $transformer->transform($data, $path) : $transformer->transform($data);
+    $d = __SUB__->($d, $path, $transformers) if(ref($d) && !$nested);
 
     return $d;
   }
@@ -66,8 +68,7 @@ class Data::Transform 1.00 {
     ));
 
     $self->register(
-      Data::Transform::Type::Nested->new(
-        type => 'ARRAY', 
+      Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
           return [map {_transform($_, path_join($path, $i++), [@transformers])} $data->@*];
@@ -76,8 +77,7 @@ class Data::Transform 1.00 {
     );
 
     $self->register(
-      Data::Transform::Type::Nested->new(
-        type => 'HASH',
+      Data::Transform::Hash->new(
         handler => sub ($data, $path) {
           return {map {$_ => _transform($data->{$_}, path_join($path, $_), [@transformers])} keys($data->%*)};
         }

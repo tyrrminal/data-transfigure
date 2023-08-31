@@ -13,7 +13,7 @@ class Data::Transform::Type :isa(Data::Transform::Base) {
 
   ADJUST {
     foreach my $t (grep {defined} $self->types()) {
-      die("$t cannot be used with Data::Transform::Type - use Data::Transform::Nested") if($t eq 'ARRAY' || $t eq 'HASH');
+      die("$t cannot be used with Data::Transform::Type - use Data::Transform::".ucfirst(lc($t))) if($t eq 'ARRAY' || $t eq 'HASH');
     }
   }
 

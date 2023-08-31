@@ -11,11 +11,11 @@ use Data::Transform::Type;
 use Data::Transform::Constants;
 
 like(dies { Data::Transform::Type->new(type => 'HASH', handler => sub{}) },
-  qr/^HASH cannot be used with Data::Transform::Type - use Data::Transform::Nested/,
+  qr/^HASH cannot be used with Data::Transform::Type - use Data::Transform::Hash/,
   'check that HASH is not allowed'
 );
 like(dies { Data::Transform::Type->new(type => 'ARRAY', handler => sub{}) },
-  qr/^ARRAY cannot be used with Data::Transform::Type - use Data::Transform::Nested/,
+  qr/^ARRAY cannot be used with Data::Transform::Type - use Data::Transform::Array/,
   'check that ARRAY is not allowed'
 );
 

@@ -4,7 +4,6 @@ use warnings;
 use experimental qw(signatures);
 
 use Test2::V0;
-use Test2::Tools::Mock qw(mock_obj);
 
 use Data::Transform;
 use Data::Transform::Type;

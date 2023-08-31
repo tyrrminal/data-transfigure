@@ -4,13 +4,12 @@ use warnings;
 use experimental qw(signatures);
 
 use Test2::V0;
-use Test2::Tools::Mock qw(mock_obj);
 use Test2::Tools::Exception qw(dies);
 
 use Data::Transform::Value;
 use Data::Transform::Constants;
 
-my $v = mock_obj();
+my $v = bless({}, 'MyClass');
 my $v_ref = ref($v);
 like(dies { Data::Transform::Value->new(value => $v, handler => sub{} ) },
   qr/^$v_ref is not acceptable for Data::Transform::Value\(value\)/,

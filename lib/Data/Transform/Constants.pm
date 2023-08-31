@@ -23,7 +23,7 @@ our @EXPORT = qw(
 
 Readonly::Scalar our $PATH_SEPARATOR => q{/};
 
-Readonly::Scalar our $NO_MATCH                 => 0;
+Readonly::Scalar our $NO_MATCH                 => -1;
 Readonly::Scalar our $MATCH_DEFAULT            => 1;
 Readonly::Scalar our $MATCH_INHERITED_TYPE     => 2;
 Readonly::Scalar our $MATCH_EXACT_TYPE         => 3;

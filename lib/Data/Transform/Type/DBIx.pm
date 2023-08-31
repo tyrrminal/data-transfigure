@@ -5,13 +5,13 @@ use warnings;
 use Object::Pad;
 
 use Data::Transform::Type;
-class Data::Transform::Type::DBIx :isa(Data::Transform::Type) {
+class Data::Transform::Type::DBIx : isa(Data::Transform::Type) {
 
-  sub BUILDARGS($class) {
+  sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      type => qw(DBIx::Class::Row),
+      type    => qw(DBIx::Class::Row),
       handler => sub ($data) {
-        return {$data->get_inflated_columns}
+        return {$data->get_inflated_columns};
       }
     );
   }

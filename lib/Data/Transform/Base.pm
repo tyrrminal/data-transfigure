@@ -7,7 +7,7 @@ use Object::Pad;
 class Data::Transform::Base {
   use Data::Transform::Constants;
 
-  field $handler :param;
+  field $handler : param;
 
   method applies_to(%params) {
     return $NO_MATCH;

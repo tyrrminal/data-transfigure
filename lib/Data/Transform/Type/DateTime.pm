@@ -5,11 +5,11 @@ use warnings;
 use Object::Pad;
 
 use Data::Transform::Type;
-class Data::Transform::Type::DateTime :isa(Data::Transform::Type) {
+class Data::Transform::Type::DateTime : isa(Data::Transform::Type) {
 
-  sub BUILDARGS($class) {
+  sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      type => q(DateTime),
+      type    => q(DateTime),
       handler => sub ($data) {
         return $data->iso8601;
       }

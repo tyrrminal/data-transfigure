@@ -4,14 +4,14 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Array :isa(Data::Transform::Base) :strict(params) {
+class Data::Transform::Array : isa(Data::Transform::Base) : strict(params) {
   use Data::Transform::Constants;
 
   method applies_to(%params) {
-    die('value is a required parameter for Data::Transform::Array->applies_to') unless(exists($params{value}));
+    die('value is a required parameter for Data::Transform::Array->applies_to') unless (exists($params{value}));
     my $node = $params{value};
 
-    return $MATCH_EXACT if(ref($node) eq 'ARRAY');
+    return $MATCH_EXACT if (ref($node) eq 'ARRAY');
     return $NO_MATCH;
   }
 

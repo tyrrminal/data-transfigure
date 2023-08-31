@@ -19,15 +19,15 @@ our @EXPORT = qw(
   $MATCH_EXACT
 );
 
-Readonly::Scalar our $NO_MATCH                 => -1;
-Readonly::Scalar our $MATCH_DEFAULT            => 1;
-Readonly::Scalar our $MATCH_INHERITED_TYPE     => 2;
-Readonly::Scalar our $MATCH_EXACT_TYPE         => 3;
-Readonly::Scalar our $MATCH_LIKE_VALUE         => 4;
-Readonly::Scalar our $MATCH_EXACT_VALUE        => 5;
-Readonly::Scalar our $MATCH_WILDCARD_POSITION  => 6;
-Readonly::Scalar our $MATCH_EXACT_POSITION     => 7;
-Readonly::Scalar our $MATCH_CORE_REF_TYPE      => 8;
-Readonly::Scalar our $MATCH_EXACT              => 100;
+Readonly::Scalar our $NO_MATCH                => -1;
+Readonly::Scalar our $MATCH_DEFAULT           => 1;
+Readonly::Scalar our $MATCH_INHERITED_TYPE    => 2;
+Readonly::Scalar our $MATCH_EXACT_TYPE        => 3;
+Readonly::Scalar our $MATCH_LIKE_VALUE        => 4;
+Readonly::Scalar our $MATCH_EXACT_VALUE       => 5;
+Readonly::Scalar our $MATCH_WILDCARD_POSITION => 6;
+Readonly::Scalar our $MATCH_EXACT_POSITION    => 7;
+Readonly::Scalar our $MATCH_CORE_REF_TYPE     => 8;
+Readonly::Scalar our $MATCH_EXACT             => 100;
 
 1;

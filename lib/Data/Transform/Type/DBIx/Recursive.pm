@@ -5,16 +5,16 @@ use warnings;
 use Object::Pad;
 
 use Data::Transform::Type;
-class Data::Transform::Type::DBIx::Recursive :isa(Data::Transform::Type) {
+class Data::Transform::Type::DBIx::Recursive : isa(Data::Transform::Type) {
 
-  sub BUILDARGS($class) {
+  sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      type => q(DBIx::Class::Row),
+      type    => q(DBIx::Class::Row),
       handler => sub ($data) {
         my %cols = $data->get_inflated_columns;
         foreach my $rel ($data->result_source->relationships) {
           my $info = $data->result_source->relationship_info($rel);
-          if($info->{attrs}->{accessor} eq 'single') {
+          if ($info->{attrs}->{accessor} eq 'single') {
             delete(@cols{keys($info->{attrs}->{fk_columns}->%*)});
             $cols{$rel} = $data->$rel;
           }

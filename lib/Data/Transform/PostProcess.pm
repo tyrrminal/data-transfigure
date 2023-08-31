@@ -4,7 +4,7 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::PostProcess : isa(Data::Transform::Base) {
+class Data::Transform::PostProcess : does(Data::Transform::Base) {
   use Data::Transform::_Internal::Constants;
 
   method applies_to(%params) {

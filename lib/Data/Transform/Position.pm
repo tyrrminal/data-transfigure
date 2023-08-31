@@ -4,7 +4,7 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Position : isa(Data::Transform::Base) {
+class Data::Transform::Position : does(Data::Transform::Base) {
   use Data::Transform::_Internal::Constants;
 
   field $path : param(position);
@@ -28,10 +28,6 @@ class Data::Transform::Position : isa(Data::Transform::Base) {
       $rv = $MATCH_WILDCARD_POSITION if ($position =~ $re);
     }
     return $rv;
-  }
-
-  method transform(@args) {
-    return $self->SUPER::transform(@args);
   }
 
 }

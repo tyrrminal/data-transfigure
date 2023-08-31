@@ -4,7 +4,7 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Default : isa(Data::Transform::Base) {
+class Data::Transform::Default : does(Data::Transform::Base) {
   use Data::Transform::_Internal::Constants;
 
   method applies_to(%params) {

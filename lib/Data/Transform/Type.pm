@@ -4,7 +4,7 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Type : isa(Data::Transform::Base) {
+class Data::Transform::Type : does(Data::Transform::Base) {
   use Data::Transform::_Internal::Constants;
 
   use Scalar::Util qw(blessed);

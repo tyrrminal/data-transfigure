@@ -4,7 +4,7 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Value : isa(Data::Transform::Base) {
+class Data::Transform::Value : does(Data::Transform::Base) {
   use Data::Transform::_Internal::Constants;
 
   field $value : param;

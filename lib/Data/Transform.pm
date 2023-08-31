@@ -99,11 +99,20 @@ class Data::Transform 1.00 {
 
   method register(@args) {
     foreach my $t (map {ref($_) eq 'ARRAY' ? $_->@* : $_} @args) {
-      require(module_path($t))                                               unless (ref($t));
-      die("Only subclasses of Data::Transform::Base can be registered ($t)") unless ($t->isa('Data::Transform::Base'));
-      $t = $t->new()                                                         unless (ref($t));
+      if(!defined($t)) {
+        die("Cannot register undef");
+      } elsif(ref($t)) {
+        die("Cannot register non-Data::Transform::Base implementers ($t)") unless ($t->DOES('Data::Transform::Base'));
+      } elsif($t eq 'Data::Transform::Base') {
+        die('Cannot register Role');
+      } else {
+        require(module_path($t));
+        die("Cannot register non-Data::Transform::Base implementers ($t)") unless ($t->DOES('Data::Transform::Base'));
+        $t = $t->new()                                                     unless (ref($t));
+      }
       push(@transformers, $t);
     }
+    return wantarray ? @transformers : scalar @transformers;
   }
 
   method transform($data) {

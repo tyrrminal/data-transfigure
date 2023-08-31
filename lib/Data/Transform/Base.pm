@@ -4,14 +4,10 @@ use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Base {
-  use Data::Transform::_Internal::Constants;
-
+role Data::Transform::Base {
   field $handler : param;
 
-  method applies_to(%params) {
-    return $NO_MATCH;
-  }
+  method applies_to;
 
   method transform(@args) {
     return $handler->(@args)

@@ -10,7 +10,7 @@ class Data::Transform 1.00 {
   use Data::Transform::Hash;
   use Data::Transform::Array;
   use Data::Transform::Default;
-  use Data::Transform::Undef;
+
 
   use Data::Transform::Constants;
 
@@ -67,14 +67,15 @@ class Data::Transform 1.00 {
 
   ADJUST {
     $self->register(
-      Data::Transform::Undef->new(
-        handler => sub ($data) {return undef;}
+      Data::Transform::Default->new(
+        handler => sub ($data) {return "$data";}
       )
     );
 
     $self->register(
-      Data::Transform::Default->new(
-        handler => sub ($data) {return "$data";}
+      Data::Transform::Value->new(
+        value => undef,
+        handler => sub($data) {return "undef";}
       )
     );
 

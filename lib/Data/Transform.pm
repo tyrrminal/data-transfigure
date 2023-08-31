@@ -65,6 +65,22 @@ class Data::Transform 1.00 {
     return $d;
   }
 
+  sub std($class) {
+    my $t = $class->new();
+    $t->register(
+      'Data::Transform::Default::ToString', 
+      Data::Transform::Value->new(value => undef, handler => sub ($data) { return undef }),
+    );
+    return $t;
+  }
+
+  sub dbix($class) {
+    my $t = $class->std();
+    $t->register(
+      'Data::Transform::Type::DBIx::Recursive',
+    )
+  }
+
   ADJUST {
     $self->register(
       Data::Transform::Array->new(

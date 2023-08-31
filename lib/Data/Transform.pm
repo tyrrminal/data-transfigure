@@ -67,19 +67,6 @@ class Data::Transform 1.00 {
 
   ADJUST {
     $self->register(
-      Data::Transform::Default->new(
-        handler => sub ($data) {return "$data";}
-      )
-    );
-
-    $self->register(
-      Data::Transform::Value->new(
-        value => undef,
-        handler => sub($data) {return "undef";}
-      )
-    );
-
-    $self->register(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;

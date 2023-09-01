@@ -1,7 +1,40 @@
 package Data::Transform::_Internal::Constants;
 use v5.26;
 use warnings;
-# ABSTRACT: turns baubles into trinkets
+
+# ABSTRACT: defines constants used by Data::Transform and its transformers
+
+=head1 NAME
+
+Data::Transform::_Internal::Constants;
+
+=head1 DESCRIPTION
+
+Defines the following constants, in ascending value order:
+
+=over
+
+=item $NO_MATCH
+
+=item $MATCH_DEFAULT
+
+=item $MATCH_INHERITED_TYPE
+
+=item $MATCH_EXACT_TYPE
+
+=item $MATCH_LIKE_VALUE
+
+=item $MATCH_EXACT_VALUE
+
+=item $MATCH_WILDCARD_POSITION
+
+=item $MATCH_EXACT_POSITION
+
+=item $MATCH_EXACT
+
+=back
+
+=cut
 
 use Exporter qw(import);
 use Readonly;
@@ -15,19 +48,49 @@ our @EXPORT = qw(
   $MATCH_EXACT_VALUE
   $MATCH_WILDCARD_POSITION
   $MATCH_EXACT_POSITION
-  $MATCH_CORE_REF_TYPE
   $MATCH_EXACT
 );
 
-Readonly::Scalar our $NO_MATCH                => -1;
-Readonly::Scalar our $MATCH_DEFAULT           => 1;
-Readonly::Scalar our $MATCH_INHERITED_TYPE    => 2;
-Readonly::Scalar our $MATCH_EXACT_TYPE        => 3;
-Readonly::Scalar our $MATCH_LIKE_VALUE        => 4;
-Readonly::Scalar our $MATCH_EXACT_VALUE       => 5;
-Readonly::Scalar our $MATCH_WILDCARD_POSITION => 6;
-Readonly::Scalar our $MATCH_EXACT_POSITION    => 7;
-Readonly::Scalar our $MATCH_CORE_REF_TYPE     => 8;
+Readonly::Scalar our $NO_MATCH                =>  -1;
+Readonly::Scalar our $MATCH_DEFAULT           =>   1;
+Readonly::Scalar our $MATCH_INHERITED_TYPE    =>  10;
+Readonly::Scalar our $MATCH_EXACT_TYPE        =>  11;
+Readonly::Scalar our $MATCH_LIKE_VALUE        =>  20;
+Readonly::Scalar our $MATCH_EXACT_VALUE       =>  21;
+Readonly::Scalar our $MATCH_WILDCARD_POSITION =>  30;
+Readonly::Scalar our $MATCH_EXACT_POSITION    =>  31;
 Readonly::Scalar our $MATCH_EXACT             => 100;
 
+=pod
+
+=head1 AUTHOR
+
+Mark Tyrrell C<< <mtyrrell@cpan.org> >>
+
+=head1 LICENSE
+
+Copyright (c) 2023 Mark Tyrrell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+=cut
+
 1;
+
+__END__

@@ -99,6 +99,6 @@ is($t->transform({
   book => { author => bless({ firstname => 'John'}, 'MyApp::Person') }, 
   some_guy => bless({ firstname => 'Bob'}, 'MyApp::Person') })
 , { book => { author => 'John'}, some_guy => check_isa('HASH')}, 
-'check that localized transformer applies to book>author but not some_guy');
+'check that positional transformer applies to book>author but not some_guy');
 
 done_testing;

@@ -67,7 +67,7 @@ class Data::Transform 1.00 {
 
   sub std($class) {
     my $t = $class->new();
-    $t->register(
+    $t->add_transformers(
       'Data::Transform::Default::ToString', 
       Data::Transform::Value->new(value => undef, handler => sub ($data) { return undef }),
     );
@@ -76,13 +76,13 @@ class Data::Transform 1.00 {
 
   sub dbix($class) {
     my $t = $class->std();
-    $t->register(
+    $t->add_transformers(
       'Data::Transform::Type::DBIx::Recursive',
     )
   }
 
   ADJUST {
-    $self->register(
+    $self->add_transformers(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
@@ -91,7 +91,7 @@ class Data::Transform 1.00 {
       )
     );
 
-    $self->register(
+    $self->add_transformers(
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
           return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [@transformers])} keys($data->%*)};
@@ -100,7 +100,7 @@ class Data::Transform 1.00 {
     );
   }
 
-  method register(@args) {
+  method add_transformers(@args) {
     foreach my $t (map {ref($_) eq 'ARRAY' ? $_->@* : $_} @args) {
       if(!defined($t)) {
         die("Cannot register undef");

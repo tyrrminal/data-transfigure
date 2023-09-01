@@ -7,7 +7,7 @@ use Test2::V0;
 use Data::Transform;
 
 my $t1 = Data::Transform->new();
-$t1->register(
+$t1->add_transformers(
   qw(
     Data::Transform::PostProcess::UppercaseHashKeyIDSuffix
     Data::Transform::PostProcess::LowerCamelKeys
@@ -30,7 +30,7 @@ is(
 );    # registration order matters!
 
 my $t2 = Data::Transform->new();
-$t2->register(
+$t2->add_transformers(
   qw(
     Data::Transform::PostProcess::LowerCamelKeys
     Data::Transform::PostProcess::UppercaseHashKeyIDSuffix

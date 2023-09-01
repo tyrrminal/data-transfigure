@@ -80,8 +80,7 @@ A number of transformer roles and classes are included with this distribution:
 
 =item * L<Data::Transform::Type::DateTime>
 - transforms DateTime objects to L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601> 
-format. This is the same effect as stringification now, but is done explicitly 
-e.g., in case DateTime ever changes how it stringifies.
+format.
 
 =item * L<Data::Transform::Type::DateTime::Duration>
 - transforms L<DateTime::Duration> objects to 

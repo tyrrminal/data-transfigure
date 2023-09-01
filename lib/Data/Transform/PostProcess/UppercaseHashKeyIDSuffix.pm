@@ -1,3 +1,4 @@
+package Data::Transform::PostProcess::UppercaseHashKeyIDSuffix;
 use v5.26;
 use warnings;
 # ABSTRACT: turns baubles into trinkets

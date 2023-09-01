@@ -1,3 +1,4 @@
+package Data::Transform::Type::DBIx;
 use v5.26;
 use warnings;
 # ABSTRACT: turns baubles into trinkets

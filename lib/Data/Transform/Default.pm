@@ -1,3 +1,4 @@
+package Data::Transform::Default;
 use v5.26;
 use warnings;
 

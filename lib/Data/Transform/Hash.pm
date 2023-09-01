@@ -1,3 +1,4 @@
+package Data::Transform::Hash;
 use v5.26;
 use warnings;
 

@@ -11,6 +11,7 @@ class Data::Transform 1.00 {
   use Data::Transform::Array;
   use Data::Transform::Default;
   use Data::Transform::Value;
+  use Data::Transform::Position;
 
   use Data::Transform::_Internal::Constants;
 
@@ -116,6 +117,13 @@ class Data::Transform 1.00 {
       push(@transformers, $t);
     }
     return wantarray ? @transformers : scalar @transformers;
+  }
+
+  method add_transformer_at($position, $transformer) {
+    push(@transformers, Data::Transform::Position->new(
+      position    => $position,
+      transformer => $transformer
+    ));
   }
 
   method transform($data) {

@@ -22,8 +22,6 @@ class Data::Transform 1.00 {
 
   field @transformers;
 
-  Readonly::Scalar our $POSITION_SEP => q{/};
-
   our @EXPORT_OK = qw(hk_rewrite_cb concat_position);
 
   sub hk_rewrite_cb ($h, $cb) {
@@ -42,9 +40,9 @@ class Data::Transform 1.00 {
   sub concat_position ($base, $add) {
     $base //= q{};
     $add  //= q{};
-    $base =~ s/[$POSITION_SEP]+$//;
-    $add  =~ s/^[$POSITION_SEP]+//;
-    return join($POSITION_SEP, ($base eq $POSITION_SEP ? '' : $base, $add));
+    $base =~ s|/+$||;
+    $add  =~ s|^/+||;
+    return join('/', ($base eq '/' ? '' : $base, $add));
   }
 
   my sub _transform ($data, $path, $transformers) {
@@ -127,7 +125,7 @@ class Data::Transform 1.00 {
   }
 
   method transform($data) {
-    my $d = _transform($data, $POSITION_SEP, [grep {!$_->isa('Data::Transform::PostProcess')} @transformers]);
+    my $d = _transform($data, '/', [grep {!$_->isa('Data::Transform::PostProcess')} @transformers]);
     foreach (grep {$_->isa('Data::Transform::PostProcess')} @transformers) {
       $d = $_->transform($d);
     }

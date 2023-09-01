@@ -6,7 +6,6 @@ use Test2::V0;
 use Test2::Tools::Exception qw(dies);
 
 use Data::Transform qw(concat_position);
-my $ps = $Data::Transform::POSITION_SEP;
 
 like(
   dies {concat_position()},
@@ -14,28 +13,28 @@ like(
   'no arguments to concat_position'
 );
 
-is(concat_position(undef, undef), $ps, 'concat undef with undef');
-is(concat_position('',    undef), $ps, 'concat empty with undef');
-is(concat_position(undef, ''),    $ps, 'concat undef with empty');
+is(concat_position(undef, undef), '/', 'concat undef with undef');
+is(concat_position('',    undef), '/', 'concat empty with undef');
+is(concat_position(undef, ''),    '/', 'concat undef with empty');
 
 my $base;
 
-is(concat_position($base, 'a'), "${ps}a", 'concat undef with a');
+is(concat_position($base, 'a'), "/a", 'concat undef with a');
 
 $base = '';
 
-is(concat_position($base, 'a'), "${ps}a", 'concat empty with a');
+is(concat_position($base, 'a'), "/a", 'concat empty with a');
 
-$base = $ps;
+$base = '/';
 
-is(concat_position($base, 'a'), "${ps}a", 'concat / with a');
+is(concat_position($base, 'a'), "/a", 'concat / with a');
 
 $base = concat_position($base, 'a');
 
-is(concat_position($base, 'b'), "${ps}a${ps}b", 'concat /a with b');
+is(concat_position($base, 'b'), "/a/b", 'concat /a with b');
 
-is(concat_position($base, "${ps}b"), "${ps}a${ps}b", 'concat /a with /b');
+is(concat_position($base, "/b"), "/a/b", 'concat /a with /b');
 
-is(concat_position("$base$ps", "b"), "${ps}a${ps}b", 'concat /a/ with b');
+is(concat_position("$base/", "b"), "/a/b", 'concat /a/ with b');
 
 done_testing;

@@ -228,12 +228,17 @@ to handle C<DBIx::Class> result rows
     return $t;
   }
 
+  my sub general_transformers(@all_transformers) {
+    return grep {!$_->isa('Data::Transform::PostProcess')} @all_transformers;
+  }
+
   ADJUST {
+    my @t = general_transformers(@transformers);
     $self->add_transformers(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
-          return [map {_transform($_, concat_position($path, $i++), [@transformers])} $data->@*];
+          return [map {_transform($_, concat_position($path, $i++), [@t])} $data->@*];
         }
       )
     );
@@ -241,7 +246,7 @@ to handle C<DBIx::Class> result rows
     $self->add_transformers(
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
-          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [@transformers])} keys($data->%*)};
+          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [@t])} keys($data->%*)};
         }
       )
     );
@@ -335,10 +340,8 @@ returns it. The data structure passed to the method is unmodified.
 =cut
 
   method transform($data) {
-    my $d = _transform($data, '/', [grep {!$_->isa('Data::Transform::PostProcess')} @transformers]);
-    foreach (grep {$_->isa('Data::Transform::PostProcess')} @transformers) {
-      $d = $_->transform($d);
-    }
+    my $d = _transform($data, '/', [general_transformers(@transformers)]);
+    $d = $_->transform($d) foreach (grep { $_->isa('Data::Transform::PostProcess') } @transformers);
     return $d;
   }
 

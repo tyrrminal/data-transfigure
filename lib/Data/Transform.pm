@@ -233,12 +233,11 @@ to handle C<DBIx::Class> result rows
   }
 
   ADJUST {
-    my @t = general_transformers(@transformers);
     $self->add_transformers(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
-          return [map {_transform($_, concat_position($path, $i++), [@t])} $data->@*];
+          return [map {_transform($_, concat_position($path, $i++), [general_transformers(@transformers)])} $data->@*];
         }
       )
     );
@@ -246,7 +245,7 @@ to handle C<DBIx::Class> result rows
     $self->add_transformers(
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
-          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [@t])} keys($data->%*)};
+          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [general_transformers(@transformers)])} keys($data->%*)};
         }
       )
     );

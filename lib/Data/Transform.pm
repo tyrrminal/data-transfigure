@@ -198,15 +198,16 @@ transformers. Preserves (does not transform to empty string) undefined values.
 
 =cut
 
-  sub std($class) {
+  sub std ($class) {
     my $t = $class->new();
     $t->add_transformers(
-      'Data::Transform::Default::ToString', 
+      'Data::Transform::Default::ToString',
       Data::Transform::Value->new(
-        value => undef, 
-        handler => sub ($data) { 
-          return undef 
-        }),
+        value   => undef,
+        handler => sub ($data) {
+          return undef;
+        }
+      ),
     );
     return $t;
   }
@@ -220,15 +221,13 @@ to handle C<DBIx::Class> result rows
 
 =cut
 
-  sub dbix($class) {
+  sub dbix ($class) {
     my $t = $class->std();
-    $t->add_transformers(
-      'Data::Transform::Type::DBIx::Recursive',
-    );
+    $t->add_transformers('Data::Transform::Type::DBIx::Recursive',);
     return $t;
   }
 
-  my sub general_transformers(@all_transformers) {
+  my sub general_transformers (@all_transformers) {
     return grep {!$_->isa('Data::Transform::PostProcess')} @all_transformers;
   }
 
@@ -245,7 +244,10 @@ to handle C<DBIx::Class> result rows
     $self->add_transformers(
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
-          return {map {$_ => _transform($data->{$_}, concat_position($path, $_), [general_transformers(@transformers)])} keys($data->%*)};
+          return {
+            map {$_ => _transform($data->{$_}, concat_position($path, $_), [general_transformers(@transformers)])}
+              keys($data->%*)
+          };
         }
       )
     );
@@ -292,13 +294,13 @@ equal match types, those added later have priority over those added earlier.
 
 =cut
 
-  method add_transformers(@args) {
+  method add_transformers (@args) {
     foreach my $t (map {ref($_) eq 'ARRAY' ? $_->@* : $_} @args) {
-      if(!defined($t)) {
+      if (!defined($t)) {
         die("Cannot register undef");
-      } elsif(ref($t)) {
+      } elsif (ref($t)) {
         die("Cannot register non-Data::Transform::Base implementers ($t)") unless ($t->DOES('Data::Transform::Base'));
-      } elsif($t eq 'Data::Transform::Base') {
+      } elsif ($t eq 'Data::Transform::Base') {
         die('Cannot register Role');
       } else {
         require(module_path($t));
@@ -322,11 +324,14 @@ See L<Data::Transform::Position> for more on positional transformers.
 
 =cut
 
-  method add_transformer_at($position, $transformer) {
-    push(@transformers, Data::Transform::Position->new(
-      position    => $position,
-      transformer => $transformer
-    ));
+  method add_transformer_at ($position, $transformer) {
+    push(
+      @transformers,
+      Data::Transform::Position->new(
+        position    => $position,
+        transformer => $transformer
+      )
+    );
   }
 
 =pod
@@ -338,9 +343,9 @@ returns it. The data structure passed to the method is unmodified.
 
 =cut
 
-  method transform($data) {
+  method transform ($data) {
     my $d = _transform($data, '/', [general_transformers(@transformers)]);
-    $d = $_->transform($d) foreach (grep { $_->isa('Data::Transform::PostProcess') } @transformers);
+    $d = $_->transform($d) foreach (grep {$_->isa('Data::Transform::PostProcess')} @transformers);
     return $d;
   }
 

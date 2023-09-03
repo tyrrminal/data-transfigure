@@ -51,14 +51,14 @@ our @EXPORT = qw(
   $MATCH_EXACT
 );
 
-Readonly::Scalar our $NO_MATCH                =>  -1;
-Readonly::Scalar our $MATCH_DEFAULT           =>   1;
-Readonly::Scalar our $MATCH_INHERITED_TYPE    =>  10;
-Readonly::Scalar our $MATCH_EXACT_TYPE        =>  11;
-Readonly::Scalar our $MATCH_LIKE_VALUE        =>  20;
-Readonly::Scalar our $MATCH_EXACT_VALUE       =>  21;
-Readonly::Scalar our $MATCH_WILDCARD_POSITION =>  30;
-Readonly::Scalar our $MATCH_EXACT_POSITION    =>  31;
+Readonly::Scalar our $NO_MATCH                => -1;
+Readonly::Scalar our $MATCH_DEFAULT           => 1;
+Readonly::Scalar our $MATCH_INHERITED_TYPE    => 10;
+Readonly::Scalar our $MATCH_EXACT_TYPE        => 11;
+Readonly::Scalar our $MATCH_LIKE_VALUE        => 20;
+Readonly::Scalar our $MATCH_EXACT_VALUE       => 21;
+Readonly::Scalar our $MATCH_WILDCARD_POSITION => 30;
+Readonly::Scalar our $MATCH_EXACT_POSITION    => 31;
 Readonly::Scalar our $MATCH_EXACT             => 100;
 
 =pod

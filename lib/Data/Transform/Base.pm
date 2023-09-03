@@ -56,8 +56,8 @@ manually or need to be overridden by subclasses.
 
 =cut
 
-  method transform(@args) {
-    return $handler->(@args)
+  method transform (@args) {
+    return $handler->(@args);
   }
 }
 

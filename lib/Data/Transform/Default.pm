@@ -31,7 +31,7 @@ Always returns C<$MATCH_DEFAULT> regardless of parameters
 
 =cut
 
-  method applies_to(%params) {
+  method applies_to (%params) {
     return $MATCH_DEFAULT;
   }
 

@@ -32,7 +32,7 @@ hashref; lowst-possible match type C<$NO_MATCH> otherwise.
 
 =cut
 
-  method applies_to(%params) {
+  method applies_to (%params) {
     die('value is a required parameter for Data::Transform::Hash->applies_to') unless (exists($params{value}));
     my $node = $params{value};
 

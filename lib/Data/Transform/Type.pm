@@ -69,7 +69,7 @@ Otherwise returns C<$NO_MATCH>.
 
 =cut
 
-  method applies_to(%params) {
+  method applies_to (%params) {
     die('value is a required parameter for Data::Transform::Type->applies_to') unless (exists($params{value}));
     my $node = $params{value};
 

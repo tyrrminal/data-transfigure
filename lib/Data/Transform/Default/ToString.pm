@@ -25,13 +25,13 @@ class Data::Transform::Default::ToString : isa(Data::Transform::Default) {
 I<none>
 
 =cut
-  
-  sub BUILDARGS($class) {
+
+  sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      handler => sub($value) {
-        return "$value"
+      handler => sub ($value) {
+        return "$value";
       }
-    )
+    );
   }
 
 }

@@ -31,7 +31,7 @@ satisfy the base role, so it simply returns undef.
 
 =cut
 
-  method applies_to(%params) {
+  method applies_to (%params) {
     return undef;
   }
 

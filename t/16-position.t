@@ -15,10 +15,11 @@ my $book_2 = bless({id => 4, title => "A Tale of Two Cities"}, 'MyApp::Model::Re
 
 my $d = Data::Transform::Position->new(
   position    => '/shelf/book',
-  transformer => Data::Transform::Default->new( 
-    handler  => sub ($entity) {
+  transformer => Data::Transform::Default->new(
+    handler => sub ($entity) {
       return {title => $entity->{title}};
-  })
+    }
+  )
 );
 
 my $o = {

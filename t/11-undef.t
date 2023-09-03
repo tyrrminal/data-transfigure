@@ -9,7 +9,7 @@ use Data::Transform::Value;
 use Data::Transform::_Internal::Constants;
 
 my $d = Data::Transform::Value->new(
-  value => undef,
+  value   => undef,
   handler => sub ($entity) {
     return "__UNDEF__";
   }

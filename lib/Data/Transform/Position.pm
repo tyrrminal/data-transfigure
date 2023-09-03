@@ -86,12 +86,12 @@ that.
     return qr/^$str$/;
   }
 
-  sub BUILDARGS($class, %params) {
+  sub BUILDARGS ($class, %params) {
     $class->SUPER::BUILDARGS(
-      position => $params{position},
+      position    => $params{position},
       transformer => $params{transformer},
-      handler => sub(@args) { 
-        $params{transformer}->transform(@args)
+      handler     => sub (@args) {
+        $params{transformer}->transform(@args);
       }
     );
   }
@@ -112,12 +112,12 @@ If no positions match, returns C<$NO_MATCH>
 
 =cut
 
-  method applies_to(%params) {
+  method applies_to (%params) {
     die('position is a required parameter for Data::Transform::Position->applies_to') unless (exists($params{position}));
     my $loc = $params{position};
 
-    my $rv    = $NO_MATCH;
-    return $rv if($transformer->applies_to(%params) == $NO_MATCH);
+    my $rv = $NO_MATCH;
+    return $rv if ($transformer->applies_to(%params) == $NO_MATCH);
     my @paths = ref($position) eq 'ARRAY' ? $position->@* : ($position);
 
     foreach (@paths) {

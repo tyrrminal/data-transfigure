@@ -17,7 +17,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
     my $d = Data::Transform->std();
     $d->add_transformers(qw(
       Data::Transform::Type::DateTime::Duration
-      Data::Transform::PostProcess::LowerCamelKeys
+      Data::Transform::Tree::LowerCamelKeys
     ), Data::Transform::Type->new(
       type    => 'Activity::Run'.
       handler => sub ($data) {
@@ -66,7 +66,7 @@ A number of transformer roles and classes are included with this distribution:
 
 =over
 
-=item * L<Data::Transform::Base>
+=item * L<Data::Transform::Node>
 - the root role which all transformers must implement
 
 =item * L<Data::Transform::Default>
@@ -103,15 +103,15 @@ callback)
 structure to apply to, in addition to whatever other criteria its transformer 
 specifies
 
-=item * L<Data::Transform::PostProcess>
+=item * L<Data::Transform::Tree>
 - a transformer that is applied to the entire data structure after all 
-non-postprocess transformations have been completed
+node transformations have been completed
 
-=item * L<Data::Transform::PostProcess::LowerCamelKeys>
+=item * L<Data::Transform::Tree::LowerCamelKeys>
 - a transformer that converts all hash keys in the data structure to 
 lowerCamelCase
 
-=item * L<Data::Transform::PostProcess::UppercaseHashKeyIDSuffix>
+=item * L<Data::Transform::Tree::UppercaseHashKeyIDSuffix>
 - a transformer that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
@@ -138,6 +138,7 @@ class Data::Transform 1.00 {
   use Readonly;
 
   field @transformers;
+  field @post_transformers;
 
   our @EXPORT_OK = qw(hk_rewrite_cb concat_position);
 
@@ -227,16 +228,12 @@ to handle C<DBIx::Class> result rows
     return $t;
   }
 
-  my sub general_transformers (@all_transformers) {
-    return grep {!$_->isa('Data::Transform::PostProcess')} @all_transformers;
-  }
-
   ADJUST {
     $self->add_transformers(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
-          return [map {_transform($_, concat_position($path, $i++), [general_transformers(@transformers)])} $data->@*];
+          return [map {_transform($_, concat_position($path, $i++), [@transformers])} $data->@*];
         }
       )
     );
@@ -245,7 +242,7 @@ to handle C<DBIx::Class> result rows
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
           return {
-            map {$_ => _transform($data->{$_}, concat_position($path, $_), [general_transformers(@transformers)])}
+            map {$_ => _transform($data->{$_}, concat_position($path, $_), [@transformers])}
               keys($data->%*)
           };
         }
@@ -268,7 +265,7 @@ Registers one or more data transformers with the C<Data::Transform> instance.
       }
     ));
 
-Each element of C<@list> must implement the L<Data::Transform::Base> role, though
+Each element of C<@list> must implement the L<Data::Transform::Node> role, though
 these can either be strings containing class names or object instances.
 
 C<Data::Transform> will automatically load class names passed in this list and 
@@ -299,17 +296,22 @@ equal match types, those added later have priority over those added earlier.
       if (!defined($t)) {
         die("Cannot register undef");
       } elsif (ref($t)) {
-        die("Cannot register non-Data::Transform::Base implementers ($t)") unless ($t->DOES('Data::Transform::Base'));
-      } elsif ($t eq 'Data::Transform::Base') {
+        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)") unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
+      } elsif ($t eq 'Data::Transform::Node') {
         die('Cannot register Role');
       } else {
         require(module_path($t));
-        die("Cannot register non-Data::Transform::Base implementers ($t)") unless ($t->DOES('Data::Transform::Base'));
-        $t = $t->new()                                                     unless (ref($t));
+        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)") unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
+        $t = $t->new() unless (ref($t));
       }
-      push(@transformers, $t);
+      if($t->DOES('Data::Transform::Node')) {
+        push(@transformers, $t);
+      } elsif($t->DOES('Data::Transform::Tree')) {
+        push(@post_transformers, $t);
+      }
     }
-    return wantarray ? @transformers : scalar @transformers;
+    my @all = (@transformers, @post_transformers);
+    return wantarray ? @all : scalar @all;
   }
 
 =pod
@@ -344,8 +346,8 @@ returns it. The data structure passed to the method is unmodified.
 =cut
 
   method transform ($data) {
-    my $d = _transform($data, '/', [general_transformers(@transformers)]);
-    $d = $_->transform($d) foreach (grep {$_->isa('Data::Transform::PostProcess')} @transformers);
+    my $d = _transform($data, '/', [@transformers]);
+    $d = $_->transform($d) foreach (@post_transformers);
     return $d;
   }
 

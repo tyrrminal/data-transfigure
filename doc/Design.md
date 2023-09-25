@@ -43,21 +43,21 @@ of its parent.)
 Data::Transform is the main module of this package, providing the functionality
 for registering transformers and transforming data structures.
 
-Data::Transform::Base provides a role which must be composed by any transformer
+Data::Transform::Node provides a role which must be composed by any transformer
 in order to be registerable with Data::Transform.
 
-The other classes included with this package compose Data::Transform::Base to
-provide convenient bases to instantiate and/or subclass, though three of them
-have specialized heuristics:
+Likewise, Data::Transform::Tree provides a role to be composed by transformers
+used for postprocessing. These are applied after all node transformations, and 
+they receive the entire data structure rather than just a single node at a time.
+
+The other classes included with this package compose Data::Transform::Node or 
+Data::Transform::Tree to provide convenient bases to instantiate and/or 
+subclass, though two of them have specialized heuristics:
 
 * Data::Transform::Array and Data::Transform::Hash are used internally by 
 Data::Transform to iterate complex data structures. They can be overridden by 
 registering new transformers of these types, but this is not presently a
 supported operation and will likely cause problems.
-
-* Data::Transform::PostProcess and any of its subclasses are handled after all
-other transformations are complete, and their handlers receive the entire data
-structure (whereas other handlers just receive a single node of the graph)
 
 Otherwise, transformation works by iterating through all registered "general" 
 (meaning not the 3 cases listed above) transformers and determining their 

@@ -52,7 +52,7 @@ scenarios, used much more specifically.
 
 use Object::Pad;
 
-class Data::Transform::Position : does(Data::Transform::Base) {
+class Data::Transform::Position : does(Data::Transform::Node) {
   use Data::Transform::_Internal::Constants;
 
 =head1 FIELDS
@@ -70,9 +70,9 @@ Cam be an arrayref of position specifiers to match any of them.
 
 =head2 transformer (required parameter)
 
-A C<Data::Transform> transformer conforming to the C<Data::Transform::Base> 
+A C<Data::Transform> transformer conforming to the C<Data::Transform::Node> 
 role. Weird things will happen if you provide a 
-C<Data::Transform::PostProcess> -type transformer, so you probably shouldn't do
+C<Data::Transform::Tree> -type transformer, so you probably shouldn't do
 that.
 
 =cut

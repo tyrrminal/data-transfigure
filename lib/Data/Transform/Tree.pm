@@ -1,64 +1,39 @@
-package Data::Transform::Base;
+package Data::Transform::Tree;
 use v5.26;
 use warnings;
 
-# ABSTRACT: the root role which all Data::Transform transformers must implement
+# ABSTRACT: a transformer that is applied to the entire data structure
 
-=encoding UTF-8
- 
 =head1 NAME
- 
-Data::Transform::Base - the root role which all Data::Transform transformers 
-must implement
+
+Data::Transform::Tree - a transformer that is applied to the entire data 
+structure, after all "node" transformations have been completed
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Base> must be implemented by all transformers used by 
-L<Data::Transform>
+C<Data::Transform::Tree> transformers are used to "clean-up" the data
+structure after all other transformations have been applied. 
 
 =cut
 
 use Object::Pad;
 
-role Data::Transform::Base {
-
-=head1 FIELDS
-
-=head2 handler (required param)
-
-The handler param accepts a CODEREF/anonymous subroutine which itself receives 
-a single parameter, the data element to transform, and is expected to return the
-transformed value.
-
-=cut
-
-  field $handler : param;
+role Data::Transform::Tree  {
+  field $handler :param;
 
 =head1 METHODS
 
-=head2 applies_to( %params )
-
-C<applies_to> is required to be supplied by classes implementing this role.
-
-This method recieves a param hash with keys C<value> and C<position> and returns
-a constant from C<Data::Transform::_Internal::Constants> reflecting what degree
-of match, if any, the transformer has to that node. Higher values are better 
-matches.
-
-=cut
-
-  method applies_to;
-
 =head2 transform( @args )
 
-Executes the handler on the data element. Typically this shouldn't be called
-manually or need to be overridden by subclasses.
+Executes the handler on the entire data structure. Typically this shouldn't be 
+called manually or need to be overridden by subclasses.
 
 =cut
 
   method transform (@args) {
     return $handler->(@args);
   }
+
 }
 
 =pod

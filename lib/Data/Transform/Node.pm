@@ -1,40 +1,64 @@
-package Data::Transform::PostProcess;
+package Data::Transform::Node;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer that is applied to the entire data structure
+# ABSTRACT: the root role which all Data::Transform transformers must implement
 
+=encoding UTF-8
+ 
 =head1 NAME
-
-Data::Transform::PostProcess - a transformer that is applied to the entire data 
-structure, after all non-postprocess transformations have been completed
+ 
+Data::Transform::Node - the root role which all Data::Transform transformers 
+must implement
 
 =head1 DESCRIPTION
 
-C<Data::Transform::PostProcess> transformers are used to "clean-up" the data
-structure after all other transformations have been applied. 
+C<Data::Transform::Node> must be implemented by all transformers used by 
+L<Data::Transform>
 
 =cut
 
 use Object::Pad;
 
-class Data::Transform::PostProcess : does(Data::Transform::Base) {
-  use Data::Transform::_Internal::Constants;
+role Data::Transform::Node {
+
+=head1 FIELDS
+
+=head2 handler (required param)
+
+The handler param accepts a CODEREF/anonymous subroutine which itself receives 
+a single parameter, the data element to transform, and is expected to return the
+transformed value.
+
+=cut
+
+  field $handler : param;
 
 =head1 METHODS
 
 =head2 applies_to( %params )
 
-In the current implementation, the result of C<Data::Transform::PostProcess> and
-subclasses' C<applies_to> is not checked, but the method must be implemented to
-satisfy the base role, so it simply returns undef.
+C<applies_to> is required to be supplied by classes implementing this role.
+
+This method recieves a param hash with keys C<value> and C<position> and returns
+a constant from C<Data::Transform::_Internal::Constants> reflecting what degree
+of match, if any, the transformer has to that node. Higher values are better 
+matches.
 
 =cut
 
-  method applies_to (%params) {
-    return undef;
-  }
+  method applies_to;
 
+=head2 transform( @args )
+
+Executes the handler on the data element. Typically this shouldn't be called
+manually or need to be overridden by subclasses.
+
+=cut
+
+  method transform (@args) {
+    return $handler->(@args);
+  }
 }
 
 =pod

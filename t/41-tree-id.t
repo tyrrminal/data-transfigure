@@ -7,7 +7,7 @@ use Test2::V0;
 use Data::Transform;
 
 my $t = Data::Transform->new();
-$t->add_transformers(qw(Data::Transform::PostProcess::UppercaseHashKeyIDSuffix));
+$t->add_transformers(qw(Data::Transform::Tree::UppercaseHashKeyIDSuffix));
 
 my $h = {id => 1};
 

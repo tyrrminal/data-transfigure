@@ -18,15 +18,15 @@ like(dies {Data::Transform->new->add_transformers('NonexistentClass')}, qr/^\Q$m
 
 like(
   dies {Data::Transform->new->add_transformers('File::Spec')},
-  qr/^Cannot register non-Data::Transform::Base implementers/,
-  'attempt to register class not implementing Data::Transform::Base'
+  qr|^Cannot register non-Data::Transform::Node/Tree implementers|,
+  'attempt to register class not implementing Data::Transform::Node'
 );
 
 ok(lives {Data::Transform->new->add_transformers('Data::Transform::Type::DateTime')},
   'register class that has no required parameters');
 
 like(
-  dies {Data::Transform->new->add_transformers('Data::Transform::Base')},
+  dies {Data::Transform->new->add_transformers('Data::Transform::Node')},
   qr/^Cannot register Role/,
   'attempt to register class that has required parameters'
 );

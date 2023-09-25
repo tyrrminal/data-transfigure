@@ -5,12 +5,14 @@ use experimental qw(signatures);
 
 use Test2::V0;
 
-use Data::Transform;
 use Data::Transform::Type;
-use Data::Transform::PostProcess;
+use Data::Transform::Tree;
 use List::Util qw(sum);
+use Object::Pad;
 
-my $count_values = Data::Transform::PostProcess->new(
+class Data::Transform::Tree::Test : does(Data::Transform::Tree) {}
+
+my $count_values = Data::Transform::Tree::Test->new(
   handler => sub ($o) {
     if (ref($o) eq 'ARRAY') {
       return sum map {__SUB__->($_)} $o->@*;

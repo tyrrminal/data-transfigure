@@ -9,7 +9,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
     my $d = Data::Transform->std();
     $d->add_transformers(qw(
       Data::Transform::Type::DateTime::Duration
-      Data::Transform::PostProcess::LowerCamelKeys
+      Data::Transform::Tree::LowerCamelKeys
     ), Data::Transform::Type->new(
       type    => 'Activity::Run'.
       handler => sub ($data) {
@@ -56,7 +56,7 @@ type to a different structure.
 
 A number of transformer roles and classes are included with this distribution:
 
-- [Data::Transform::Base](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ABase)
+- [Data::Transform::Node](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ABase)
 - the root role which all transformers must implement
 - [Data::Transform::Default](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADefault)
 - a low priority transformer that only applies when no other transformers do
@@ -83,13 +83,13 @@ callback)
 - a compound transformer that specifies one or more locations within the data 
 structure to apply to, in addition to whatever other criteria its transformer 
 specifies
-- [Data::Transform::PostProcess](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess)
+- [Data::Transform::Tree](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess)
 - a transformer that is applied to the entire data structure after all 
-non-postprocess transformations have been completed
-- [Data::Transform::PostProcess::LowerCamelKeys](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3ALowerCamelKeys)
+node transformations have been completed
+- [Data::Transform::Tree::LowerCamelKeys](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3ALowerCamelKeys)
 - a transformer that converts all hash keys in the data structure to 
 lowerCamelCase
-- [Data::Transform::PostProcess::UppercaseHashKeyIDSuffix](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3AUppercaseHashKeyIDSuffix)
+- [Data::Transform::Tree::UppercaseHashKeyIDSuffix](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3AUppercaseHashKeyIDSuffix)
 - a transformer that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
@@ -124,7 +124,7 @@ Registers one or more data transformers with the `Data::Transform` instance.
       }
     ));
 
-Each element of `@list` must implement the [Data::Transform::Base](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ABase) role, though
+Each element of `@list` must implement the [Data::Transform::Node](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ABase) role, though
 these can either be strings containing class names or object instances.
 
 `Data::Transform` will automatically load class names passed in this list and 

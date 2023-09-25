@@ -20,7 +20,7 @@ or it is likely to result in unbounded recursion.
 
 use Object::Pad;
 
-class Data::Transform::Hash : does(Data::Transform::Base) : strict(params) {
+class Data::Transform::Hash : does(Data::Transform::Node) : strict(params) {
   use Data::Transform::_Internal::Constants;
 
 =head1 METHODS

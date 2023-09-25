@@ -41,4 +41,13 @@ is($d->applies_to(value => $o->{current}, position => concat_position($base, 'cu
 
 is($d->transform($o->{shelf}->{book}), {title => 'War and Peace'}, 'check transform at position');
 
+$d = Data::Transform::Position->new(
+  position => ['/attachment','/elements/*/attachment'],
+  transformer => Data::Transform::Default->new(
+    handler => sub($entity) { undef }
+  )
+);
+
+is($d->applies_to(value => $o->{current}, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transform at position');
+
 done_testing;

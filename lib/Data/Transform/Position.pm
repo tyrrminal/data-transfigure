@@ -125,7 +125,7 @@ If no positions match, returns C<$NO_MATCH>
       my @re = wildcard_to_regex($_);
       my @parts = split(q{/}, $loc);
       next if(@parts != @re);
-      for (my $i=0; $i<$#re; $i++) {
+      for (my $i=0; $i<$#re+1; $i++) {
         next PATH unless($parts[$i] =~ $re[$i]);
       }
       $rv = $MATCH_WILDCARD_POSITION;

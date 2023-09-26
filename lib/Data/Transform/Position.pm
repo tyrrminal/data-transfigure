@@ -82,8 +82,9 @@ that.
 
   my sub wildcard_to_regex ($str) {
     $str =~ s|[.]|\\.|g;
-    $str =~ s|[*]|.*|g;
-    return map {qr/^$_$/} split(q{/}, $str);
+    $str =~ s|[*]{2}|.*|g;
+    $str =~ s|(?<![.])[*]|[^/]*|g;
+    return qr/^$str/;
   }
 
   sub BUILDARGS ($class, %params) {
@@ -122,13 +123,8 @@ If no positions match, returns C<$NO_MATCH>
 
     PATH: foreach (@paths) {
       return $MATCH_EXACT_POSITION if ($loc eq $_);
-      my @re = wildcard_to_regex($_);
-      my @parts = split(q{/}, $loc);
-      next if(@parts != @re);
-      for (my $i=0; $i<$#re+1; $i++) {
-        next PATH unless($parts[$i] =~ $re[$i]);
-      }
-      $rv = $MATCH_WILDCARD_POSITION;
+      my $re = wildcard_to_regex($_);
+      $rv = $MATCH_WILDCARD_POSITION if($loc =~ $re);
     }
     return $rv;
   }

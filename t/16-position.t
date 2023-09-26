@@ -31,23 +31,29 @@ my $o = {
 
 my $base = concat_position(undef, undef);
 
-is($d->applies_to(value => $o,          position => $base), $NO_MATCH, 'check position applies_to (hash-outer)');
-is($d->applies_to(value => $o->{shelf}, position => concat_position($base, 'shelf')),
+is($d->applies_to(value => undef,          position => $base), $NO_MATCH, 'check position applies_to (hash-outer)');
+is($d->applies_to(value => undef, position => concat_position($base, 'shelf')),
   $NO_MATCH, 'check position applies_to (hash-inner)');
-is($d->applies_to(value => $o->{shelf}->{book}, position => concat_position(concat_position($base, 'shelf'), 'book')),
+is($d->applies_to(value => undef, position => concat_position(concat_position($base, 'shelf'), 'book')),
   $MATCH_EXACT_POSITION, 'check position applies_to (object)');
-is($d->applies_to(value => $o->{current}, position => concat_position($base, 'current')),
+is($d->applies_to(value => undef, position => concat_position($base, 'current')),
   $NO_MATCH, 'check position applies-to (wrong object)');
 
 is($d->transform($o->{shelf}->{book}), {title => 'War and Peace'}, 'check transform at position');
 
 $d = Data::Transform::Position->new(
-  position => ['/attachment','/elements/*/attachment'],
+  position => ['/attachment','/elements/*/attachment', '/find/**/attachment'],
   transformer => Data::Transform::Default->new(
     handler => sub($entity) { undef }
   )
 );
 
-is($d->applies_to(value => $o->{current}, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transform at position');
+is($d->applies_to(value => undef, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transform at position');
+
+is($d->applies_to(value => undef, position => "/attachment"), $MATCH_EXACT_POSITION, "check attachment match");
+is($d->applies_to(value => undef, position => "/my_attachment"), $NO_MATCH, "check attachment non-match");
+is($d->applies_to(value => undef, position => "/elements/4/attachment"), $MATCH_WILDCARD_POSITION, "check inner attachment match");
+is($d->applies_to(value => undef, position => "/find/this/anywhere/attachment"), $MATCH_WILDCARD_POSITION, "check double-wildcard attachment match");
+is($d->applies_to(value => undef, position => "/not/this/anywhere/attachment"), $NO_MATCH, "check double-wildcard attachment no-match");
 
 done_testing;

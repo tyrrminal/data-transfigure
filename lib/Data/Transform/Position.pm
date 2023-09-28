@@ -77,7 +77,7 @@ that.
 
 =cut
 
-  field $position : param;
+  field $position    : param;
   field $transformer : param;
 
   my sub wildcard_to_regex ($str) {
@@ -113,18 +113,19 @@ If no positions match, returns C<$NO_MATCH>
 
 =cut
 
-  method applies_to (%params) {
+  method applies_to(%params) {
     die('position is a required parameter for Data::Transform::Position->applies_to') unless (exists($params{position}));
     my $loc = $params{position};
 
-    my $rv = $NO_MATCH;
-    return $rv if ($transformer->applies_to(%params) == $NO_MATCH);
+    my $rv       = $NO_MATCH;
+    my $tf_match = $transformer->applies_to(%params);
+    return $rv if ($tf_match == $rv);
     my @paths = ref($position) eq 'ARRAY' ? $position->@* : ($position);
 
-    PATH: foreach (@paths) {
-      return $MATCH_EXACT_POSITION if ($loc eq $_);
+  PATH: foreach (@paths) {
+      return $MATCH_EXACT_POSITION & $tf_match if ($loc eq $_);
       my $re = wildcard_to_regex($_);
-      $rv = $MATCH_WILDCARD_POSITION if($loc =~ $re);
+      $rv = $MATCH_WILDCARD_POSITION & $tf_match if ($loc =~ $re);
     }
     return $rv;
   }

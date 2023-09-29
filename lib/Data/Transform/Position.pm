@@ -84,7 +84,7 @@ that.
     $str =~ s|[.]|\\.|g;
     $str =~ s|[*]{2}|.*|g;
     $str =~ s|(?<![.])[*]|[^/]*|g;
-    return qr/^$str/;
+    return qr/^$str$/;
   }
 
   sub BUILDARGS ($class, %params) {

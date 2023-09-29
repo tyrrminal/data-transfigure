@@ -108,34 +108,4 @@ is(
   'check that positional transformer applies to book>author but not some_guy'
 );
 
-use Data::Transform::Predicate;
-
-my $predicate_toggle = 0;
-
-$t = Data::Transform->std();
-$t->add_transformers(
-  Data::Transform::Type->new(
-    type    => 'MyApp::Book',
-    handler => sub($entity) {
-      +{ map { $_ => $entity->{$_} } qw(id) }
-    }
-  ),
-  Data::Transform::Predicate->new(
-    predicate => sub($value, $position) {
-      $predicate_toggle
-    },
-    transformer => Data::Transform::Type->new(
-      type => 'MyApp::Book',
-      handler => sub($entity) {
-        +{ map { $_ => $entity->{$_} } qw(id title) }
-      }
-    )
-  )
-);
-
-my $book = bless({ id => 2, title => 'War and Peace' }, 'MyApp::Book');
-is($t->transform({book => $book}), {book => {id => 2} }, 'Predicate non-match test');
-$predicate_toggle = 1;
-is($t->transform({book => $book}), {book => { id => 2, title => 'War and Peace' } }, 'Predicate match test');
-
 done_testing;

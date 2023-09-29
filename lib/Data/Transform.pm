@@ -163,24 +163,31 @@ class Data::Transform 1.00 {
     return join('/', ($base eq '/' ? '' : $base, $add));
   }
 
-  my sub _transform ($data, $path, $transformers) {
+#<<V perltidy can't handle Object::Pad's lexical methods
+  method $get_matching_transformer ($data, $path) {
     my @match;
-    for (my $i = 0 ; $i < $transformers->@* ; $i++) {
-      my $v = $transformers->[$i]->applies_to(value => $data, position => $path);
-      push(@match, [$v, $i, $transformers->[$i]]) if ($v != $NO_MATCH);
+    for (my $i = 0 ; $i < @transformers ; $i++) {
+      my $v = $transformers[$i]->applies_to(value => $data, position => $path);
+      push(@match, [$v, $i, $transformers[$i]]) if ($v != $NO_MATCH);
     }
-    return $data unless (@match);
+    return undef unless (@match);
 
     my $best_match = max(map {$_->[0]} @match);
     @match = sort {$b->[1] - $a->[1]} grep {$_->[0] == $best_match} @match;
-    my $transformer = $match[0]->[2];
-    my $nested      = $transformer->isa('Data::Transform::Array') || $transformer->isa('Data::Transform::Hash');
+    return $match[0]->[2];
+  }
+
+  method $transform ($data, $path) {
+    my $transformer = $self->$get_matching_transformer($data, $path);
+    return $data unless (defined($transformer));
+    my $nested = $transformer->isa('Data::Transform::Array') || $transformer->isa('Data::Transform::Hash');
 
     my $d = $nested ? $transformer->transform($data, $path) : $transformer->transform($data);
-    $d = __SUB__->($d, $path, $transformers) if (ref($d) && !$nested);
+    $d = __SUB__->($self, $d, $path) if (ref($d) && !$nested); #recursively call into lexical method, which hasn't been fully defined yet
 
     return $d;
   }
+#>>V
 
 =pod
 
@@ -233,7 +240,7 @@ to handle C<DBIx::Class> result rows
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
           my $i = 0;
-          return [map {_transform($_, concat_position($path, $i++), [@transformers])} $data->@*];
+          return [map {$self->$transform($_, concat_position($path, $i++))} $data->@*];
         }
       )
     );
@@ -242,7 +249,7 @@ to handle C<DBIx::Class> result rows
       Data::Transform::Hash->new(
         handler => sub ($data, $path) {
           return {
-            map {$_ => _transform($data->{$_}, concat_position($path, $_), [@transformers])}
+            map {$_ => $self->$transform($data->{$_}, concat_position($path, $_))}
               keys($data->%*)
           };
         }
@@ -348,7 +355,7 @@ returns it. The data structure passed to the method is unmodified.
 =cut
 
   method transform ($data) {
-    my $d = _transform($data, '/', [@transformers]);
+    my $d = $self->$transform($data, '/');
     $d = $_->transform($d) foreach (@post_transformers);
     return $d;
   }

@@ -123,9 +123,9 @@ If no positions match, returns C<$NO_MATCH>
     my @paths = ref($position) eq 'ARRAY' ? $position->@* : ($position);
 
   PATH: foreach (@paths) {
-      return $MATCH_EXACT_POSITION & $tf_match if ($loc eq $_);
+      return $MATCH_EXACT_POSITION | $tf_match if ($loc eq $_);
       my $re = wildcard_to_regex($_);
-      $rv = $MATCH_WILDCARD_POSITION & $tf_match if ($loc =~ $re);
+      $rv = $MATCH_WILDCARD_POSITION | $tf_match if ($loc =~ $re);
     }
     return $rv;
   }

@@ -36,7 +36,7 @@ is($d->applies_to(value => undef, position => concat_position($base, 'shelf')),
   $NO_MATCH, 'check position applies_to (hash-inner)');
 is(
   $d->applies_to(value => undef, position => concat_position(concat_position($base, 'shelf'), 'book')),
-  $MATCH_EXACT_POSITION & $MATCH_DEFAULT,
+  $MATCH_EXACT_POSITION | $MATCH_DEFAULT,
   'check position applies_to (object)'
 );
 is($d->applies_to(value => undef, position => concat_position($base, 'current')),
@@ -53,16 +53,16 @@ $d = Data::Transform::Position->new(
 
 is($d->applies_to(value => undef, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transform at position');
 
-is($d->applies_to(value => undef, position => "/attachment"),    $MATCH_EXACT_POSITION & $MATCH_DEFAULT, "check attachment match");
+is($d->applies_to(value => undef, position => "/attachment"),    $MATCH_EXACT_POSITION | $MATCH_DEFAULT, "check attachment match");
 is($d->applies_to(value => undef, position => "/my_attachment"), $NO_MATCH, "check attachment non-match");
 is(
   $d->applies_to(value => undef, position => "/elements/4/attachment"),
-  $MATCH_WILDCARD_POSITION & $MATCH_DEFAULT,
+  $MATCH_WILDCARD_POSITION | $MATCH_DEFAULT,
   "check inner attachment match"
 );
 is(
   $d->applies_to(value => undef, position => "/find/this/anywhere/attachment"),
-  $MATCH_WILDCARD_POSITION & $MATCH_DEFAULT,
+  $MATCH_WILDCARD_POSITION | $MATCH_DEFAULT,
   "check double-wildcard attachment match"
 );
 is($d->applies_to(value => undef, position => "/not/this/anywhere/attachment"),

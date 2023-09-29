@@ -296,17 +296,19 @@ equal match types, those added later have priority over those added earlier.
       if (!defined($t)) {
         die("Cannot register undef");
       } elsif (ref($t)) {
-        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)") unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
+        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)")
+          unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
       } elsif ($t eq 'Data::Transform::Node') {
         die('Cannot register Role');
       } else {
         require(module_path($t));
-        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)") unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
+        die("Cannot register non-Data::Transform::Node/Tree implementers ($t)")
+          unless ($t->DOES('Data::Transform::Node') || $t->DOES('Data::Transform::Tree'));
         $t = $t->new() unless (ref($t));
       }
-      if($t->DOES('Data::Transform::Node')) {
+      if ($t->DOES('Data::Transform::Node')) {
         push(@transformers, $t);
-      } elsif($t->DOES('Data::Transform::Tree')) {
+      } elsif ($t->DOES('Data::Transform::Tree')) {
         push(@post_transformers, $t);
       }
     }

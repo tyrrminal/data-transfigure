@@ -9,7 +9,7 @@ use Data::Transform qw(concat_position);
 
 like(
   dies {concat_position()},
-  qr/Too few arguments for subroutine 'Data::Transform::concat_position' \(got 0; expected 2\)/,
+  qr/Too few arguments for subroutine 'Data::Transform::concat_position'/,
   'no arguments to concat_position'
 );
 

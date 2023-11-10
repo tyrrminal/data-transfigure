@@ -11,7 +11,7 @@ use Data::Transform::Type;
 
 my $predicate_toggle = 0;
 
-my $t = Data::Transform->std();
+my $t = Data::Transform->new();
 $t->add_transformers(
   Data::Transform::Type->new(
     type    => 'MyApp::Book',

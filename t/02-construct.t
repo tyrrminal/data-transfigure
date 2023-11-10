@@ -6,7 +6,7 @@ use Test2::V0;
 
 use Data::Transform;
 
-my $t = Data::Transform->new();
+my $t = Data::Transform->bare();
 
 is(ref($t), 'Data::Transform', 'constructor');
 

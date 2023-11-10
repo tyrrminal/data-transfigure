@@ -6,7 +6,7 @@ use Test2::V0;
 
 use Data::Transform;
 
-my $t1 = Data::Transform->new();
+my $t1 = Data::Transform->bare();
 $t1->add_transformers(
   qw(
     Data::Transform::Tree::UppercaseHashKeyIDSuffix
@@ -29,7 +29,7 @@ is(
   'wrong-order registration'
 );    # registration order matters!
 
-my $t2 = Data::Transform->new();
+my $t2 = Data::Transform->bare();
 $t2->add_transformers(
   qw(
     Data::Transform::Tree::LowerCamelKeys

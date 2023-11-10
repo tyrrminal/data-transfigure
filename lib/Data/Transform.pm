@@ -187,55 +187,8 @@ class Data::Transform 1.00 {
 
     return $d;
   }
-#>>V
 
-=pod
-
-=head1 CONSTRUCTORS
-
-=head2 Data::Transform->new()
-
-Constructs a new "bare-bones" instance that has no builtin data transformers, 
-leaving it to the user to provide those.
-
-=head2 Data::Transform->std()
-
-Returns a standard instance that pre-adds L<Data::Transform::Default::ToString>
-to stringify values that are not otherwise transformed by user-provided 
-transformers. Preserves (does not transform to empty string) undefined values.
-
-=cut
-
-  sub std ($class) {
-    my $t = $class->new();
-    $t->add_transformers(
-      'Data::Transform::Default::ToString',
-      Data::Transform::Value->new(
-        value   => undef,
-        handler => sub ($data) {
-          return undef;
-        }
-      ),
-    );
-    return $t;
-  }
-
-=pod
-
-=head2 Data::Transform->dbix()
-
-Builds off of the C<std()> instance, adding L<Data::Transform::DBIx::Recursive> 
-to handle C<DBIx::Class> result rows
-
-=cut
-
-  sub dbix ($class) {
-    my $t = $class->std();
-    $t->add_transformers('Data::Transform::Type::DBIx::Recursive',);
-    return $t;
-  }
-
-  ADJUST {
+  method $add_structural_transformers () {
     $self->add_transformers(
       Data::Transform::Array->new(
         handler => sub ($data, $path) {
@@ -255,6 +208,67 @@ to handle C<DBIx::Class> result rows
         }
       )
     );
+  }
+
+  method $add_standard_transformers () {
+    $self->add_transformers(
+      'Data::Transform::Default::ToString',
+      Data::Transform::Value->new(
+        value   => undef,
+        handler => sub ($data) {
+          return undef;
+        }
+      ),
+    );
+  }
+
+  method $remove_all_transformers () {
+    @transformers = ();
+    @post_transformers = ();
+  }
+#>>V
+
+=pod
+
+=head1 CONSTRUCTORS
+
+=head2 Data::Transform->new()
+
+Constructs a new default instance that pre-adds 
+L<Data::Transform::Default::ToString> to stringify values that are not otherwise
+transformed by user-provided transformers. Preserves (does not transform to 
+empty string) undefined values.
+
+=head2 Data::Transform->bare()
+
+Returns a "bare-bones" instance that has no builtin data transformers.
+
+=cut
+
+  sub bare ($class) {
+    my $t = Data::Transform->new();
+    $t->$remove_all_transformers();
+    $t->$add_structural_transformers();
+    return $t;
+  } 
+
+=pod
+
+=head2 Data::Transform->dbix()
+
+Adds L<Data::Transform::DBIx::Recursive> to to handle C<DBIx::Class> result rows
+
+=cut
+
+  sub dbix ($class) {
+    my $t = $class->new();
+    $t->add_transformers('Data::Transform::Type::DBIx::Recursive',);
+    return $t;
+  }
+
+  ADJUST {
+    $self->$add_structural_transformers();
+    $self->$add_standard_transformers();
   }
 
 =pod

@@ -1,13 +1,14 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
-use experimental qw(signatures);
 
 use Test2::V0;
 use Test2::Tools::Exception qw(dies);
 
 use Data::Transform::Value;
 use Data::Transform::_Internal::Constants;
+
+use experimental qw(signatures);
 
 my $v     = bless({}, 'MyClass');
 my $v_ref = ref($v);

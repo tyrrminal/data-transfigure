@@ -1,13 +1,14 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
-use experimental qw(signatures);
 
 use Test2::V0;
 
 use Data::Transform;
 use Data::Transform::Predicate;
 use Data::Transform::Type;
+
+use experimental qw(signatures);
 
 my $predicate_toggle = 0;
 

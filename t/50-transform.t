@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
-use experimental qw(signatures);
 
 use Test2::V0;
 use Test2::Tools::Warnings  qw(warns);
@@ -9,6 +8,8 @@ use Test2::Tools::Exception qw(dies lives);
 use Test2::Tools::Compare   qw(check_isa);
 
 use Data::Transform;
+
+use experimental qw(signatures);
 
 # Transformer registration tests
 like(dies {Data::Transform->bare->add_transformers(undef)}, qr/^Cannot register undef/, 'attempt to register undef');

@@ -1,13 +1,14 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
-use experimental qw(signatures);
 
 use Test2::V0;
 
 use Data::Transform::Predicate;
 use Data::Transform::Type;
 use Data::Transform::_Internal::Constants;
+
+use experimental qw(signatures);
 
 my $book = bless({id => 1, title => 'War and Peace'}, 'MyApp::Model::Result::Book');
 

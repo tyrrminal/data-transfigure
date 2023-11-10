@@ -1,12 +1,13 @@
 #!/usr/bin/perl
 use v5.26;
 use warnings;
-use experimental qw(signatures);
 
 use Test2::V0;
 
 use Data::Transform::Default;
 use Data::Transform::_Internal::Constants;
+
+use experimental qw(signatures);
 
 my $d = Data::Transform::Default->new(
   handler => sub ($entity) {

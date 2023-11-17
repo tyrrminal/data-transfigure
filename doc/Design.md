@@ -62,7 +62,7 @@ supported operation and will likely cause problems.
 Otherwise, transformation works by iterating through all registered "general" 
 (meaning not the 3 cases listed above) transformers and determining their 
 `applies_to` value for a particular node/position in the data graph. `applies_to`
-returns a constant from `Data::Transform::_Internal::Constants`. Those that
+returns a constant from `Data::Transform::Constants`. Those that
 return `$NO_MATCH` are ignored, and the remainder are sorted by match value 
 (higher being better) and then by order of being registered, so that later
 additions can override previous ones. The best match is then selected, and used

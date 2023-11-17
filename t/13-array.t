@@ -5,7 +5,7 @@ use warnings;
 use Test2::V0;
 
 use Data::Transform::Array;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 like(
   dies {

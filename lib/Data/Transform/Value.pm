@@ -22,7 +22,7 @@ expression, or a callback CODEREF.
 use Object::Pad;
 
 class Data::Transform::Value : does(Data::Transform::Node) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
 =head1 FIELDS
 

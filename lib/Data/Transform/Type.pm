@@ -21,7 +21,7 @@ role-implementing), giving priority to the former.
 use Object::Pad;
 
 class Data::Transform::Type : does(Data::Transform::Node) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
   use Scalar::Util qw(blessed);
 

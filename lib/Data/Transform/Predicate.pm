@@ -21,7 +21,7 @@ applied to select appropriate transformers.
 use Object::Pad;
 
 class Data::Transform::Predicate : does(Data::Transform::Node) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
 =head1 FIELDS
 

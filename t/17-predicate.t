@@ -6,7 +6,7 @@ use Test2::V0;
 
 use Data::Transform::Predicate;
 use Data::Transform::Type;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 use experimental qw(signatures);
 

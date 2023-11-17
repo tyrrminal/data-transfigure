@@ -6,7 +6,7 @@ use experimental qw(signatures);
 use Test2::V0;
 
 use Data::Transform::Value;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 my $d = Data::Transform::Value->new(
   value   => undef,

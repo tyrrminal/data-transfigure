@@ -41,7 +41,7 @@ transformed value.
 C<applies_to> is required to be supplied by classes implementing this role.
 
 This method recieves a param hash with keys C<value> and C<position> and returns
-a constant from C<Data::Transform::_Internal::Constants> reflecting what degree
+a constant from C<Data::Transform::Constants> reflecting what degree
 of match, if any, the transformer has to that node. Higher values are better 
 matches.
 

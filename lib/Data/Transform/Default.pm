@@ -21,7 +21,7 @@ no other registered transformer applies to
 use Object::Pad;
 
 class Data::Transform::Default : does(Data::Transform::Node) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
 =head1 METHODS
 

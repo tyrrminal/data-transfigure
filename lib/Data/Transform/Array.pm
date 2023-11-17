@@ -21,7 +21,7 @@ or it is likely to result in unbounded recursion.
 use Object::Pad;
 
 class Data::Transform::Array : does(Data::Transform::Node) : strict(params) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
 =head1 METHODS
 

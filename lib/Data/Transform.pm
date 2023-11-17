@@ -130,7 +130,7 @@ class Data::Transform 1.00 {
   use Data::Transform::Value;
   use Data::Transform::Position;
 
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
   use List::Util   qw(max);
   use Module::Util qw(module_path);

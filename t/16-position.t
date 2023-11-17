@@ -7,7 +7,7 @@ use Test2::V0;
 use Data::Transform qw(concat_position);
 use Data::Transform::Position;
 use Data::Transform::Default;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 use experimental qw(signatures);
 

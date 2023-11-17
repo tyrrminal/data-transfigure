@@ -7,7 +7,7 @@ use Test2::V0;
 use Test2::Tools::Exception qw(dies);
 
 use Data::Transform::Type;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 like(
   dies {

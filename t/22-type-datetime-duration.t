@@ -6,7 +6,7 @@ use Test2::V0;
 
 use DateTime::Duration;
 use Data::Transform::Type::DateTime::Duration;
-use Data::Transform::_Internal::Constants;
+use Data::Transform::Constants;
 
 my $dt = DateTime::Duration->new(minutes => 8, seconds => 15);
 my $d  = Data::Transform::Type::DateTime::Duration->new();

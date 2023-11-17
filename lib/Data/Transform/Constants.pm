@@ -1,4 +1,4 @@
-package Data::Transform::_Internal::Constants;
+package Data::Transform::Constants;
 use v5.26;
 use warnings;
 
@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-Data::Transform::_Internal::Constants;
+Data::Transform::Constants;
 
 =head1 DESCRIPTION
 

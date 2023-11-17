@@ -53,7 +53,7 @@ scenarios, used much more specifically.
 use Object::Pad;
 
 class Data::Transform::Position : does(Data::Transform::Node) {
-  use Data::Transform::_Internal::Constants;
+  use Data::Transform::Constants;
 
 =head1 FIELDS
 

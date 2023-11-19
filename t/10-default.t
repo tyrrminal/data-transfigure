@@ -21,7 +21,8 @@ my $o = {
   c => bless({id => 3, title => 'War and Peace'}, 'MyApp::Model::Result::Book'),
 };
 
-is($d->applies_to(value => $o),      $MATCH_DEFAULT, 'default match of hash');
+is($d->applies_to(value => $o),      $NO_MATCH, 'hashes excluded from default matching');
+is($d->applies_to(value => []),      $NO_MATCH, 'arrays excluded from default matching');
 is($d->applies_to(value => $o->{a}), $MATCH_DEFAULT, 'default match of scalar (a => 1)');
 is($d->applies_to(value => $o->{b}), $MATCH_DEFAULT, 'default match of scalar (b => 2)');
 is($d->applies_to(value => $o->{c}), $MATCH_DEFAULT, 'default match of scalar (c => custom class instance)');

@@ -109,4 +109,16 @@ is(
   'check that positional transformer applies to book>author but not some_guy'
 );
 
+$t = Data::Transform->new();
+$t->add_transformers(
+  Data::Transform::Type->new(
+    type => 'MyApp::Person',
+    handler => sub ($entity) {
+      return $entity
+    }
+  )
+);
+
+like(dies {$t->transform({ person => bless({firstname => 'Bob'}, 'MyApp::Person') })}, qr/^Deep recursion detected in Data::Transform::transform/, 'catch unbounded recursion');
+
 done_testing;

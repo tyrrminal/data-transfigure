@@ -32,6 +32,7 @@ Always returns C<$MATCH_DEFAULT> regardless of parameters
 =cut
 
   method applies_to (%params) {
+    return $NO_MATCH if(ref($params{value}) eq 'HASH' || ref($params{value}) eq 'ARRAY');
     return $MATCH_DEFAULT;
   }
 

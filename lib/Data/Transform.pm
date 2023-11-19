@@ -124,8 +124,8 @@ use Object::Pad;
 class Data::Transform 1.00 {
   use Exporter qw(import);
 
-  use Data::Transform::Hash;
-  use Data::Transform::Array;
+  use Data::Compare;
+
   use Data::Transform::Default;
   use Data::Transform::Value;
   use Data::Transform::Position;
@@ -164,50 +164,46 @@ class Data::Transform 1.00 {
   }
 
 #<<V perltidy can't handle Object::Pad's lexical methods
-  method $get_matching_transformer ($data, $path) {
+  method $check_frame ($frame, $stack) {
+    foreach my $c (reverse $stack->@*) {
+      return 1 if($c->[0] == $frame->[0] && Compare($c->[1], $frame->[1]));
+    }
+    return 0;
+  }
+
+  method $get_matching_transformer_idx ($data, $path) {
     my @match;
     for (my $i = 0 ; $i < @transformers ; $i++) {
       my $v = $transformers[$i]->applies_to(value => $data, position => $path);
-      push(@match, [$v, $i, $transformers[$i]]) if ($v != $NO_MATCH);
+      push(@match, {value => $v, index => $i}) if ($v != $NO_MATCH);
     }
     return undef unless (@match);
 
-    my $best_match = max(map {$_->[0]} @match);
-    @match = sort {$b->[1] - $a->[1]} grep {$_->[0] == $best_match} @match;
-    return $match[0]->[2];
+    my $best_match = max(map {$_->{value}} @match);
+    @match = sort {$b->{index} - $a->{index}} grep {$_->{value} == $best_match} @match;
+    return $match[0]->{index};
   }
 
-  method $transform ($data, $path) {
-    my $transformer = $self->$get_matching_transformer($data, $path);
-    return $data unless (defined($transformer));
-    my $nested = $transformer->isa('Data::Transform::Array') || $transformer->isa('Data::Transform::Hash');
+  method $transform ($data, $path, $stack = []) {
+    my ($idx, $frame);
+    if(ref($data) eq 'ARRAY') {
+      $frame = [-2, $data];
+      die("Deep recursion detected in Data::Transform::transform\n") if($self->$check_frame($frame, $stack));
+      $data = [ map{ __SUB__->($self, $data->[$_], concat_position($path, $_), [$stack->@*, ]) } 0..$#$data ] # transform members of array
+    } elsif(ref($data) eq 'HASH') {
+      $frame = [-1, $data];
+      die("Deep recursion detected in Data::Transform::transform\n") if($self->$check_frame($frame, $stack));
+      $data = { map { $_ => __SUB__->($self, $data->{$_}, concat_position($path, $_), [$stack->@*, $frame]) } keys($data->%*) } # transform values of hash
+    }
+      
+    $idx = $self->$get_matching_transformer_idx($data, $path); # transform the data item
+    return $data unless(defined($idx));
 
-    my $d = $nested ? $transformer->transform($data, $path) : $transformer->transform($data);
-    $d = __SUB__->($self, $d, $path) if (ref($d) && !$nested); #recursively call into lexical method, which hasn't been fully defined yet
-
-    return $d;
-  }
-
-  method $add_structural_transformers () {
-    $self->add_transformers(
-      Data::Transform::Array->new(
-        handler => sub ($data, $path) {
-          my $i = 0;
-          return [map {$self->$transform($_, concat_position($path, $i++))} $data->@*];
-        }
-      )
-    );
-
-    $self->add_transformers(
-      Data::Transform::Hash->new(
-        handler => sub ($data, $path) {
-          return {
-            map {$_ => $self->$transform($data->{$_}, concat_position($path, $_))}
-              keys($data->%*)
-          };
-        }
-      )
-    );
+    $frame = [$idx, $data];
+    die("Deep recursion detected in Data::Transform::transform\n") if($self->$check_frame($frame, $stack));
+    $data = $transformers[$idx]->transform($data);
+    $data = __SUB__->($self, $data, $path, [$stack->@*, $frame]) if (ref($data)); #recursively transform the transformed data item
+    return $data;
   }
 
   method $add_standard_transformers () {
@@ -248,7 +244,6 @@ Returns a "bare-bones" instance that has no builtin data transformers.
   sub bare ($class) {
     my $t = Data::Transform->new();
     $t->$remove_all_transformers();
-    $t->$add_structural_transformers();
     return $t;
   } 
 
@@ -267,7 +262,6 @@ Adds L<Data::Transform::DBIx::Recursive> to to handle C<DBIx::Class> result rows
   }
 
   ADJUST {
-    $self->$add_structural_transformers();
     $self->$add_standard_transformers();
   }
 

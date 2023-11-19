@@ -38,7 +38,7 @@ the type names.
 
   ADJUST {
     foreach my $t (grep {defined} $self->types()) {
-      die("$t cannot be used with Data::Transform::Type - use Data::Transform::" . ucfirst(lc($t)))
+      die("$t cannot be used with Data::Transform::Type - use Data::Transform::Schema")
         if ($t eq 'ARRAY' || $t eq 'HASH');
     }
   }

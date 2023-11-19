@@ -13,14 +13,14 @@ like(
   dies {
     Data::Transform::Type->new(type => 'HASH', handler => sub { })
   },
-  qr/^HASH cannot be used with Data::Transform::Type - use Data::Transform::Hash/,
+  qr/^HASH cannot be used with Data::Transform::Type - use Data::Transform::Schema/,
   'check that HASH is not allowed'
 );
 like(
   dies {
     Data::Transform::Type->new(type => 'ARRAY', handler => sub { })
   },
-  qr/^ARRAY cannot be used with Data::Transform::Type - use Data::Transform::Array/,
+  qr/^ARRAY cannot be used with Data::Transform::Type - use Data::Transform::Schema/,
   'check that ARRAY is not allowed'
 );
 

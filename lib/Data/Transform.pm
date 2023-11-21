@@ -17,7 +17,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
     my $d = Data::Transform->std();
     $d->add_transformers(qw(
       Data::Transform::Type::DateTime::Duration
-      Data::Transform::Tree::LowerCamelKeys
+      Data::Transform::HashKeys::CamelCase
     ), Data::Transform::Type->new(
       type    => 'Activity::Run'.
       handler => sub ($data) {
@@ -107,11 +107,15 @@ specifies
 - a transformer that is applied to the entire data structure after all 
 node transformations have been completed
 
-=item * L<Data::Transform::Tree::LowerCamelKeys>
+=item * L<Data::Transform::HashKeys::CamelCase>
 - a transformer that converts all hash keys in the data structure to 
 lowerCamelCase
 
-=item * L<Data::Transform::Tree::UppercaseHashKeyIDSuffix>
+=item * L<Data::Transform::HashKeys::SnakeCase>
+- a transformer that converts all hash keys in the data structure to 
+snake_case
+
+=item * L<Data::Transform::HashKeys::CapitalizedIDSuffix>
 - a transformer that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 

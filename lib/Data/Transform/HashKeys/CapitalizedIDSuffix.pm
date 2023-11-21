@@ -1,29 +1,27 @@
-package Data::Transform::Tree::LowerCamelKeys;
+package Data::Transform::HashKeys::CapitalizedIDSuffix;
 use v5.26;
 use warnings;
 
-# ABSTRACT: converts hash keys to lowerCamelCase
+# ABSTRACT: a post-process transformer that rewrites hash keys to replace /Id$/ with ID
 
 =head1 NAME
 
-Data::Transform::Tree::LowerCamelKeys - converts hash keys to 
-lowerCamelCase
+Data::Transform::HashKeys::CapitalizedIDSuffix - a post-process 
+transformer that rewrites hash keys to replace /Id$/ with ID
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Tree::LowerCamelKeys> is intended for cases where the
-backend policies require C<snake_case> but the frontend (and API) policies 
-dictate C<camelCase>. As a post-process transformer, adding it rewrites all of 
-the structure's hash keys to the proper format in that scenario.
+C<Data::Transform::HashKeys::CapitalizedIDSuffix> addresses a side 
+effect of camelCasing keys, which is that keys like C<user_id> are transformed
+into C<userId> when you might prefer them to be C<userID>
 
 =cut
 
 use Object::Pad;
 
 use Data::Transform::Tree;
-class Data::Transform::Tree::LowerCamelKeys : does(Data::Transform::Tree) {
-  use Data::Transform         qw(hk_rewrite_cb);
-  use String::CamelSnakeKebab qw(lower_camel_case);
+class Data::Transform::HashKeys::CapitalizedIDSuffix : does(Data::Transform::Tree) {
+  use Data::Transform qw(hk_rewrite_cb);
 
 =head1 FIELDS
 
@@ -34,7 +32,7 @@ I<none>
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
       handler => sub ($entity) {
-        return hk_rewrite_cb($entity, \&lower_camel_case);
+        return hk_rewrite_cb($entity, sub ($k) {$k =~ s/Id$/ID/r});
       }
     );
   }

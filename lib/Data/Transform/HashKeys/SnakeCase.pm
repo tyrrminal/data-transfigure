@@ -1,4 +1,4 @@
-package Data::Transform::Tree::LowerSnakeKeys;
+package Data::Transform::HashKeys::SnakeCase;
 use v5.26;
 use warnings;
 
@@ -6,12 +6,12 @@ use warnings;
 
 =head1 NAME
 
-Data::Transform::Tree::LowerSnakeKeys - converts hash keys to 
+Data::Transform::HashKeys::SnakeCase - converts hash keys to 
 lower_snake_case
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Tree::LowerSnakeKeys> is intended for cases where the
+C<Data::Transform::HashKeys::SnakeCase> is intended for cases where the
 backend policies require C<snake_case> but the frontend (and API) policies 
 dictate C<camelCase>. As a post-process transformer, adding it rewrites all of 
 the structure's hash keys to the proper format in that scenario.
@@ -21,7 +21,7 @@ the structure's hash keys to the proper format in that scenario.
 use Object::Pad;
 
 use Data::Transform::Tree;
-class Data::Transform::Tree::LowerSnakeKeys : does(Data::Transform::Tree) {
+class Data::Transform::HashKeys::SnakeCase : does(Data::Transform::Tree) {
   use Data::Transform         qw(hk_rewrite_cb);
   use String::CamelSnakeKebab qw(lower_snake_case);
 

@@ -9,7 +9,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
     my $d = Data::Transform->std();
     $d->add_transformers(qw(
       Data::Transform::Type::DateTime::Duration
-      Data::Transform::Tree::LowerCamelKeys
+      Data::Transform::HashKeys::CamelCase
     ), Data::Transform::Type->new(
       type    => 'Activity::Run'.
       handler => sub ($data) {
@@ -65,55 +65,55 @@ A number of transformer roles and classes are included with this distribution:
 - [Data::Transform::Type](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType)
 - a transformer that matches against one or more data types
 - [Data::Transform::Type::DateTime](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADateTime)
-- transforms DateTime objects to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) 
-format.
+- transforms DateTime objects to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601)
+  format.
 - [Data::Transform::Type::DateTime::Duration](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADateTime%3A%3ADuration)
-- transforms [DateTime::Duration](https://metacpan.org/pod/DateTime%3A%3ADuration) objects to 
-[ISO8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) (duration!) format
+- transforms [DateTime::Duration](https://metacpan.org/pod/DateTime%3A%3ADuration) objects to
+  [ISO8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) (duration!) format
 - [Data::Transform::Type::DBIx](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADBIx)
-- transforms [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value 
-pairs. Does not recurse across relationships
+- transforms [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value
+  pairs. Does not recurse across relationships
 - [Data::Transform::Type::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADBIx%3A%3ARecursive)
 - transforms [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value pairs,
-recursing down to\_one-type relationships
+  recursing down to_one-type relationships
 - [Data::Transform::Value](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AValue)
-- a transformer that matches against data values (exactly, by regex, or by coderef 
-callback)
+- a transformer that matches against data values (exactly, by regex, or by coderef
+  callback)
 - [Data::Transform::Position](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APosition)
-- a compound transformer that specifies one or more locations within the data 
-structure to apply to, in addition to whatever other criteria its transformer 
-specifies
-- [Data::Transform::Tree](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess)
-- a transformer that is applied to the entire data structure after all 
-node transformations have been completed
-- [Data::Transform::Tree::LowerCamelKeys](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3ALowerCamelKeys)
-- a transformer that converts all hash keys in the data structure to 
-lowerCamelCase
-- [Data::Transform::Tree::UppercaseHashKeyIDSuffix](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APostProcess%3A%3AUppercaseHashKeyIDSuffix)
-- a transformer that converts "Id" at the end of hash keys (as results from 
-lowerCamelCase conversion) to "ID"
+- a compound transformer that specifies one or more locations within the data
+  structure to apply to, in addition to whatever other criteria its transformer
+  specifies
+- [Data::Transform::Tree](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ATree)
+- a transformer that is applied to the entire data structure after all
+  node transformations have been completed
+- [Data::Transform::HashKeys::CamelCase](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ACamelCase)
+- a transformer that converts all hash keys in the data structure to camelCase
+- [Data::Transform::HashKeys::SnakeCase](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ASnakeCase)
+- a transformer that converts all hash keys in the data structure to snake_case
+- [Data::Transform::HashKeys::CapitalizeIDSuffix](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ACapitalizedIDSuffix)
+- a transformer that converts "Id" at the end of hash keys (as results from camelCase conversion) to "ID"
 
 # CONSTRUCTORS
 
 ## Data::Transform->new()
 
-Constructs a new "bare-bones" instance that has no builtin data transformers, 
+Constructs a new "bare-bones" instance that has no builtin data transformers,
 leaving it to the user to provide those.
 
 ## Data::Transform->std()
 
 Returns a standard instance that pre-adds [Data::Transform::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADefault%3A%3AToString)
-to stringify values that are not otherwise transformed by user-provided 
+to stringify values that are not otherwise transformed by user-provided
 transformers. Preserves (does not transform to empty string) undefined values.
 
 ## Data::Transform->dbix()
 
-Builds off of the `std()` instance, adding [Data::Transform::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADBIx%3A%3ARecursive) 
+Builds off of the `std()` instance, adding [Data::Transform::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADBIx%3A%3ARecursive)
 to handle `DBIx::Class` result rows
 
 # METHODS
 
-## add\_transformers( @list )
+## add_transformers( @list )
 
 Registers one or more data transformers with the `Data::Transform` instance.
 
@@ -127,7 +127,7 @@ Registers one or more data transformers with the `Data::Transform` instance.
 Each element of `@list` must implement the [Data::Transform::Node](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ABase) role, though
 these can either be strings containing class names or object instances.
 
-`Data::Transform` will automatically load class names passed in this list and 
+`Data::Transform` will automatically load class names passed in this list and
 construct an object instance from that class. This will fail if the class's `new`
 constructor does not exist or has required parameters.
 
@@ -145,12 +145,12 @@ the same as any item passed directly to this method.
     $t->add_transformers($bundle);
 
 When transforming data, only one transformer will be applied to each data element,
-prioritizing the most-specific types of matches. Among transformers that have 
+prioritizing the most-specific types of matches. Among transformers that have
 equal match types, those added later have priority over those added earlier.
 
-## add\_transformer\_at( $position => $transformer )
+## add_transformer_at( $position => $transformer )
 
-`add_transformer_at` is a convenience method for creating and adding a 
+`add_transformer_at` is a convenience method for creating and adding a
 positional transformer (one that applies to a specific data-path within the given
 structure) in a single step.
 
@@ -158,7 +158,7 @@ See [Data::Transform::Position](https://metacpan.org/pod/Data%3A%3ATransform%3A%
 
 ## transform( $data )
 
-Transforms the data according to the transformers added to the instance and 
+Transforms the data according to the transformers added to the instance and
 returns it. The data structure passed to the method is unmodified.
 
 # AUTHOR

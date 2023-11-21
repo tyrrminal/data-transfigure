@@ -9,8 +9,8 @@ use Data::Transform;
 my $t1 = Data::Transform->bare();
 $t1->add_transformers(
   qw(
-    Data::Transform::Tree::UppercaseHashKeyIDSuffix
-    Data::Transform::Tree::LowerCamelKeys
+    Data::Transform::HashKeys::CapitalizedIDSuffix
+    Data::Transform::HashKeys::CamelCase
     )
 );
 
@@ -32,8 +32,8 @@ is(
 my $t2 = Data::Transform->bare();
 $t2->add_transformers(
   qw(
-    Data::Transform::Tree::LowerCamelKeys
-    Data::Transform::Tree::UppercaseHashKeyIDSuffix
+    Data::Transform::HashKeys::CamelCase
+    Data::Transform::HashKeys::CapitalizedIDSuffix
     )
 );
 

@@ -67,56 +67,56 @@ A number of transformer roles and classes are included with this distribution:
 =over
 
 =item * L<Data::Transform::Node>
-- the root role which all transformers must implement
+the root role which all transformers must implement
 
 =item * L<Data::Transform::Default>
-- a low priority transformer that only applies when no other transformers do
+a low priority transformer that only applies when no other transformers do
 
 =item * L<Data::Transform::Default::ToString>
-- a transformer that stringifies any value that is not otherwise transformed
+a transformer that stringifies any value that is not otherwise transformed
 
 =item * L<Data::Transform::Type>
-- a transformer that matches against one or more data types
+a transformer that matches against one or more data types
 
 =item * L<Data::Transform::Type::DateTime>
-- transforms DateTime objects to L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601> 
+transforms DateTime objects to L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601> 
 format.
 
 =item * L<Data::Transform::Type::DateTime::Duration>
-- transforms L<DateTime::Duration> objects to 
+transforms L<DateTime::Duration> objects to 
 L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601#Durations> (duration!) format
 
 =item * L<Data::Transform::Type::DBIx>
-- transforms L<DBIx::Class::Row> instances into hashrefs of colname->value 
+transforms L<DBIx::Class::Row> instances into hashrefs of colname->value 
 pairs. Does not recurse across relationships
 
 =item * L<Data::Transform::Type::DBIx::Recursive>
-- transforms L<DBIx::Class::Row> instances into hashrefs of colname->value pairs,
+transforms L<DBIx::Class::Row> instances into hashrefs of colname->value pairs,
 recursing down to_one-type relationships
 
 =item * L<Data::Transform::Value>
-- a transformer that matches against data values (exactly, by regex, or by coderef 
+a transformer that matches against data values (exactly, by regex, or by coderef 
 callback)
 
 =item * L<Data::Transform::Position>
-- a compound transformer that specifies one or more locations within the data 
+a compound transformer that specifies one or more locations within the data 
 structure to apply to, in addition to whatever other criteria its transformer 
 specifies
 
 =item * L<Data::Transform::Tree>
-- a transformer that is applied to the entire data structure after all 
+a transformer that is applied to the entire data structure after all 
 node transformations have been completed
 
 =item * L<Data::Transform::HashKeys::CamelCase>
-- a transformer that converts all hash keys in the data structure to 
+a transformer that converts all hash keys in the data structure to 
 lowerCamelCase
 
 =item * L<Data::Transform::HashKeys::SnakeCase>
-- a transformer that converts all hash keys in the data structure to 
+a transformer that converts all hash keys in the data structure to 
 snake_case
 
 =item * L<Data::Transform::HashKeys::CapitalizedIDSuffix>
-- a transformer that converts "Id" at the end of hash keys (as results from 
+a transformer that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
 =back

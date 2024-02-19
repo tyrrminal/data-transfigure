@@ -56,43 +56,43 @@ type to a different structure.
 
 A number of transfigurator roles and classes are included with this distribution:
 
-- [Data::Transfigure::Node](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ANode)
+- [Data::Transfigure::Node](https://metacpan.org/pod/Data::Transfigure::Node)
 the root role which all transfigurators must implement
-- [Data::Transfigure::Default](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault)
+- [Data::Transfigure::Default](https://metacpan.org/pod/Data::Transfigure::Default)
 a low priority transfigurator that only applies when no other transfigurators do
-- [Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault%3A%3AToString)
+- [Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data::Transfigure::Default::ToString)
 a transfigurator that stringifies any value that is not otherwise transfigured
-- [Data::Transfigure::Type](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType)
+- [Data::Transfigure::Type](https://metacpan.org/pod/Data::Transfigure::Type)
 a transfigurator that matches against one or more data types
-- [Data::Transfigure::Type::DateTime](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADateTime)
+- [Data::Transfigure::Type::DateTime](https://metacpan.org/pod/Data::Transfigure::Type::DateTime)
 transfigures DateTime objects to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) 
 format.
-- [Data::Transfigure::Type::DateTime::Duration](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADateTime%3A%3ADuration)
-transfigures [DateTime::Duration](https://metacpan.org/pod/DateTime%3A%3ADuration) objects to 
+- [Data::Transfigure::Type::DateTime::Duration](https://metacpan.org/pod/Data::Transfigure::Type::DateTime::Duration)
+transfigures [DateTime::Duration](https://metacpan.org/pod/DateTime::Duration) objects to 
 [ISO8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) (duration!) format
-- [Data::Transfigure::Type::DBIx](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADBIx)
-transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value 
+- [Data::Transfigure::Type::DBIx](https://metacpan.org/pod/Data::Transfigure::Type::DBIx)
+transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx::Class::Row) instances into hashrefs of colname->value 
 pairs. Does not recurse across relationships
-- [Data::Transfigure::Type::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADBIx%3A%3ARecursive)
-transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value pairs,
+- [Data::Transfigure::Type::DBIx::Recursive](https://metacpan.org/pod/Data::Transfigure::Type::DBIx::Recursive)
+transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx::Class::Row) instances into hashrefs of colname->value pairs,
 recursing down to\_one-type relationships
-- [Data::Transfigure::Value](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AValue)
+- [Data::Transfigure::Value](https://metacpan.org/pod/Data::Transfigure::Value)
 a transfigurator that matches against data values (exactly, by regex, or by coderef 
 callback)
-- [Data::Transfigure::Position](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3APosition)
+- [Data::Transfigure::Position](https://metacpan.org/pod/Data::Transfigure::Position)
 a compound transfigurator that specifies one or more locations within the data 
 structure to apply to, in addition to whatever other criteria its transfigurator 
 specifies
-- [Data::Transfigure::Tree](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ATree)
+- [Data::Transfigure::Tree](https://metacpan.org/pod/Data::Transfigure::Tree)
 a transfigurator that is applied to the entire data structure after all 
 node transfigurations have been completed
-- [Data::Transfigure::HashKeys::CamelCase](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ACamelCase)
+- [Data::Transfigure::HashKeys::CamelCase](https://metacpan.org/pod/Data::Transfigure::HashKeys::CamelCase)
 a transfigurator that converts all hash keys in the data structure to 
 lowerCamelCase
-- [Data::Transfigure::HashKeys::SnakeCase](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ASnakeCase)
+- [Data::Transfigure::HashKeys::SnakeCase](https://metacpan.org/pod/Data::Transfigure::HashKeys::SnakeCase)
 a transfigurator that converts all hash keys in the data structure to 
 snake\_case
-- [Data::Transfigure::HashKeys::CapitalizedIDSuffix](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ACapitalizedIDSuffix)
+- [Data::Transfigure::HashKeys::CapitalizedIDSuffix](https://metacpan.org/pod/Data::Transfigure::HashKeys::CapitalizedIDSuffix)
 a transfigurator that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
@@ -101,7 +101,7 @@ lowerCamelCase conversion) to "ID"
 ## Data::Transfigure->new()
 
 Constructs a new default instance that pre-adds 
-[Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault%3A%3AToString) to stringify values that are not otherwise
+[Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data::Transfigure::Default::ToString) to stringify values that are not otherwise
 transfigured by user-provided transfigurators. Preserves (does not transfigure to 
 empty string) undefined values.
 
@@ -111,7 +111,7 @@ Returns a "bare-bones" instance that has no builtin data transfigurators.
 
 ## Data::Transfigure->dbix()
 
-Adds [Data::Transfigure::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADBIx%3A%3ARecursive) to to handle `DBIx::Class` result rows
+Adds [Data::Transfigure::DBIx::Recursive](https://metacpan.org/pod/Data::Transfigure::DBIx::Recursive) to to handle `DBIx::Class` result rows
 
 # METHODS
 
@@ -126,7 +126,7 @@ Registers one or more data transfigurators with the `Data::Transfigure` instance
       }
     ));
 
-Each element of `@list` must implement the [Data::Transfigure::Node](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ANode) role, though
+Each element of `@list` must implement the [Data::Transfigure::Node](https://metacpan.org/pod/Data::Transfigure::Node) role, though
 these can either be strings containing class names or object instances.
 
 `Data::Transfigure` will automatically load class names passed in this list and 
@@ -156,7 +156,7 @@ equal match types, those added later have priority over those added earlier.
 positional transfigurator (one that applies to a specific data-path within the given
 structure) in a single step.
 
-See [Data::Transfigure::Position](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3APosition) for more on positional transfigurators.
+See [Data::Transfigure::Position](https://metacpan.org/pod/Data::Transfigure::Position) for more on positional transfigurators.
 
 ## transfigure( $data )
 

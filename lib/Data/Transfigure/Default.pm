@@ -42,7 +42,7 @@ Always returns C<$MATCH_DEFAULT> regardless of parameters
 
 =head1 AUTHOR
 
-Mark Tyrrell C<< <mtyrrell@cpan.org> >>
+Mark Tyrrell C<< <mark@tyrrminal.dev> >>
 
 =head1 LICENSE
 

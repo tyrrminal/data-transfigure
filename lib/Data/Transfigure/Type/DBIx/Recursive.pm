@@ -55,7 +55,7 @@ I<none>
 
 =head1 AUTHOR
 
-Mark Tyrrell C<< <mtyrrell@cpan.org> >>
+Mark Tyrrell C<< <mark@tyrrminal.dev> >>
 
 =head1 LICENSE
 

@@ -165,7 +165,7 @@ returns it. The data structure passed to the method is unmodified.
 
 # AUTHOR
 
-Mark Tyrrell `<mtyrrell@cpan.org>`
+Mark Tyrrell `<mark@tyrrminal.dev>`
 
 # LICENSE
 

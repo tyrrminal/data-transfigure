@@ -65,7 +65,7 @@ manually or need to be overridden by subclasses.
 
 =head1 AUTHOR
 
-Mark Tyrrell C<< <mtyrrell@cpan.org> >>
+Mark Tyrrell C<< <mark@tyrrminal.dev> >>
 
 =head1 LICENSE
 

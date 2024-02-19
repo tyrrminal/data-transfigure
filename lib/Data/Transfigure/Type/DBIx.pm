@@ -1,26 +1,28 @@
-package Data::Transform::Type::DateTime;
+package Data::Transfigure::Type::DBIx;
 use v5.26;
 use warnings;
 
-# ABSTRACT: transform DateTime objects to ISO8601 format
+# ABSTRACT: transfigures DBIx::Class::Rows into hashrefs
 
 =head1 NAME
 
-Data::Transform::Type::DateTime - transform DateTime objects to ISO8601 format
+Data::Transfigure::Type::DBIx - transfigures DBIx::Class::Rows into hashrefs
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Type::DateTime> transforms DateTime objects to 
-L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601> format. This is the same 
-effect as stringification now, but is done explicitly e.g., in case DateTime 
-ever changes how it stringifies.
+C<Data::Transfigure::Type::DBIx> is used to transfigure L<DBIx::Class::Row>
+instances into JSON-able structures, using C<get_inflated_columns> to get make
+a hashref from the object's keys (column names) and values.
+
+This transfigurator does not traverse relationships, and instead just outputs the 
+foreign key column's name and id value.
 
 =cut
 
 use Object::Pad;
 
-use Data::Transform::Type;
-class Data::Transform::Type::DateTime : isa(Data::Transform::Type) {
+use Data::Transfigure::Type;
+class Data::Transfigure::Type::DBIx : isa(Data::Transfigure::Type) {
 
 =head1 FIELDS
 
@@ -30,9 +32,9 @@ I<none>
 
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      type    => q(DateTime),
+      type    => qw(DBIx::Class::Row),
       handler => sub ($data) {
-        return $data->iso8601;
+        return {$data->get_inflated_columns};
       }
     );
   }

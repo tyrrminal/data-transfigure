@@ -5,15 +5,15 @@ use warnings;
 use Test2::V0;
 
 use DateTime;
-use Data::Transform::Type::DateTime;
-use Data::Transform::Constants;
+use Data::Transfigure::Type::DateTime;
+use Data::Transfigure::Constants;
 
 my $dt = DateTime->new(year => 2000, month => 1, day => 1);
-my $d  = Data::Transform::Type::DateTime->new();
+my $d  = Data::Transfigure::Type::DateTime->new();
 
 is($d->applies_to(value => $dt),                  $MATCH_EXACT_TYPE, 'check applies_to type (DateTime)');
 is($d->applies_to(value => bless({}, 'MyClass')), $NO_MATCH,         'check applies_to (negative) type (MyClass)');
 
-is($d->transform($dt), '2000-01-01T00:00:00', 'check transform type (DateTime)');
+is($d->transfigure($dt), '2000-01-01T00:00:00', 'check transfigure type (DateTime)');
 
 done_testing;

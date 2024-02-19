@@ -1,12 +1,12 @@
-package Data::Transform::Schema;
+package Data::Transfigure::Schema;
 use v5.26;
 use warnings;
 
 use Object::Pad;
 
-class Data::Transform::Schema :does(Data::Transform::Node) {
+class Data::Transfigure::Schema :does(Data::Transfigure::Node) {
   use Scalar::Util qw(blessed);
-  use Data::Transform::Constants;
+  use Data::Transfigure::Constants;
 
   field $schema :param;
 

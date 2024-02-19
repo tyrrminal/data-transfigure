@@ -1,18 +1,18 @@
-package Data::Transform::Type;
+package Data::Transfigure::Type;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer that filters by reference type
+# ABSTRACT: a transfigurator that filters by reference type
 
 =encoding UTF-8
 
 =head1 NAME
 
-Data::Transform::Type - a transformer that filters by reference type
+Data::Transfigure::Type - a transfigurator that filters by reference type
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Type> is a transformer that applies to one or more value
+C<Data::Transfigure::Type> is a transfigurator that applies to one or more value
 types. It detects both exact type matches and inherited type matches (including
 role-implementing), giving priority to the former.
 
@@ -20,8 +20,8 @@ role-implementing), giving priority to the former.
 
 use Object::Pad;
 
-class Data::Transform::Type : does(Data::Transform::Node) {
-  use Data::Transform::Constants;
+class Data::Transfigure::Type : does(Data::Transfigure::Node) {
+  use Data::Transfigure::Constants;
 
   use Scalar::Util qw(blessed);
 
@@ -38,7 +38,7 @@ the type names.
 
   ADJUST {
     foreach my $t (grep {defined} $self->types()) {
-      die("$t cannot be used with Data::Transform::Type - use Data::Transform::Schema")
+      die("$t cannot be used with Data::Transfigure::Type - use Data::Transfigure::Schema")
         if ($t eq 'ARRAY' || $t eq 'HASH');
     }
   }
@@ -70,7 +70,7 @@ Otherwise returns C<$NO_MATCH>.
 =cut
 
   method applies_to (%params) {
-    die('value is a required parameter for Data::Transform::Type->applies_to') unless (exists($params{value}));
+    die('value is a required parameter for Data::Transfigure::Type->applies_to') unless (exists($params{value}));
     my $node = $params{value};
 
     my $rv = $NO_MATCH;

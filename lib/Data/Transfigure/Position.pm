@@ -1,19 +1,19 @@
-package Data::Transform::Position;
+package Data::Transfigure::Position;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a compound transformer that specifies one or more locations within the data structure to apply to
+# ABSTRACT: a compound transfigurator that specifies one or more locations within the data structure to apply to
 
 =head1 NAME
 
-Data::Transform::Position - a compound transformer that specifies one or more 
+Data::Transfigure::Position - a compound transfigurator that specifies one or more 
 locations within the data structure to apply to
 
 =head1 SYNOPSIS
 
-    Data::Transform::Position->new(
+    Data::Transfigure::Position->new(
       position => '/*/author',
-      transformer => Data::Transform::Type->new(
+      transfigurator => Data::Transfigure::Type->new(
         type => 'Result::Person',
         handler => sub ($data) {
           sprintf("%s, %s", $data->lastname, $data->firstname)
@@ -22,9 +22,9 @@ locations within the data structure to apply to
     ); # applies to any 2nd-level hash key "author", but only if that value's
        # type is 'Result::Person', and then performs a custom stringification
 
-    Data::Transform::Position->new(
+    Data::Transfigure::Position->new(
       position => '/book/author',
-      transformer => Data::Transform::Default->new(
+      transfigurator => Data::Transfigure::Default->new(
         handler => sub ($data ) {
           {
             firstname => $data->names->{first} // '',
@@ -37,14 +37,14 @@ locations within the data structure to apply to
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Position> is a compound transformer, meaning that it both is,
-and has, a transformer. The transformer you give it at construction can be of 
+C<Data::Transfigure::Position> is a compound transfigurator, meaning that it both is,
+and has, a transfigurator. The transfigurator you give it at construction can be of 
 any type, with its own handler and match criteria. The 
-C<Data::Transform::Position>'s handler will become the one from the supplied
-transformer, so C<handler> should not be specified when creating this 
-transformer.
+C<Data::Transfigure::Position>'s handler will become the one from the supplied
+transfigurator, so C<handler> should not be specified when creating this 
+transfigurator.
 
-This construction is used so that transformers can be treated like building
+This construction is used so that transfigurators can be treated like building
 blocks and in some cases inserted to apply to the entire tree, but in other
 scenarios, used much more specifically.
 
@@ -52,8 +52,8 @@ scenarios, used much more specifically.
 
 use Object::Pad;
 
-class Data::Transform::Position : does(Data::Transform::Node) {
-  use Data::Transform::Constants;
+class Data::Transfigure::Position : does(Data::Transfigure::Node) {
+  use Data::Transfigure::Constants;
 
 =head1 FIELDS
 
@@ -68,17 +68,17 @@ or array index.
 
 Cam be an arrayref of position specifiers to match any of them.
 
-=head2 transformer (required parameter)
+=head2 transfigurator (required parameter)
 
-A C<Data::Transform> transformer conforming to the C<Data::Transform::Node> 
+A C<Data::Transfigure> transfigurator conforming to the C<Data::Transfigure::Node> 
 role. Weird things will happen if you provide a 
-C<Data::Transform::Tree> -type transformer, so you probably shouldn't do
+C<Data::Transfigure::Tree> -type transfigurator, so you probably shouldn't do
 that.
 
 =cut
 
   field $position    : param;
-  field $transformer : param;
+  field $transfigurator : param;
 
   my sub wildcard_to_regex ($str) {
     $str =~ s|[.]|\\.|g;
@@ -90,9 +90,9 @@ that.
   sub BUILDARGS ($class, %params) {
     $class->SUPER::BUILDARGS(
       position    => $params{position},
-      transformer => $params{transformer},
+      transfigurator => $params{transfigurator},
       handler     => sub (@args) {
-        $params{transformer}->transform(@args);
+        $params{transfigurator}->transfigure(@args);
       }
     );
   }
@@ -100,9 +100,9 @@ that.
 =head1 applies_to( %params )
 
 C<$params{position}> must exist, as well as any params required by the supplied
-transformer.
+transfigurator.
 
-Passes C<%params> to the instance's transformer's C<applies_to> method - if that
+Passes C<%params> to the instance's transfigurator's C<applies_to> method - if that
 results in C<$NO_MATCH>, then that value is returned by this method.
 
 Then, the C<position(s)> is/are checked against C<$params{position}>. If 
@@ -114,11 +114,11 @@ If no positions match, returns C<$NO_MATCH>
 =cut
 
   method applies_to(%params) {
-    die('position is a required parameter for Data::Transform::Position->applies_to') unless (exists($params{position}));
+    die('position is a required parameter for Data::Transfigure::Position->applies_to') unless (exists($params{position}));
     my $loc = $params{position};
 
     my $rv       = $NO_MATCH;
-    my $tf_match = $transformer->applies_to(%params);
+    my $tf_match = $transfigurator->applies_to(%params);
     return $rv if ($tf_match == $rv);
     my @paths = ref($position) eq 'ARRAY' ? $position->@* : ($position);
 

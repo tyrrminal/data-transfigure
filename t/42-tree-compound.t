@@ -4,13 +4,13 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform;
+use Data::Transfigure;
 
-my $t1 = Data::Transform->bare();
-$t1->add_transformers(
+my $t1 = Data::Transfigure->bare();
+$t1->add_transfigurators(
   qw(
-    Data::Transform::HashKeys::CapitalizedIDSuffix
-    Data::Transform::HashKeys::CamelCase
+    Data::Transfigure::HashKeys::CapitalizedIDSuffix
+    Data::Transfigure::HashKeys::CamelCase
     )
 );
 
@@ -21,7 +21,7 @@ my $h = {
 };
 
 is(
-  $t1->transform($h), {
+  $t1->transfigure($h), {
     id     => 1,
     time   => '03:06',
     typeId => 6,
@@ -29,16 +29,16 @@ is(
   'wrong-order registration'
 );    # registration order matters!
 
-my $t2 = Data::Transform->bare();
-$t2->add_transformers(
+my $t2 = Data::Transfigure->bare();
+$t2->add_transfigurators(
   qw(
-    Data::Transform::HashKeys::CamelCase
-    Data::Transform::HashKeys::CapitalizedIDSuffix
+    Data::Transfigure::HashKeys::CamelCase
+    Data::Transfigure::HashKeys::CapitalizedIDSuffix
     )
 );
 
 is(
-  $t2->transform($h), {
+  $t2->transfigure($h), {
     id     => 1,
     time   => '03:06',
     typeID => 6,

@@ -4,7 +4,7 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform qw(hk_rewrite_cb);
+use Data::Transfigure qw(hk_rewrite_cb);
 
 my $t = {
   one           => 1,

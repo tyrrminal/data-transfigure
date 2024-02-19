@@ -4,19 +4,19 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform qw(concat_position);
-use Data::Transform::Position;
-use Data::Transform::Default;
-use Data::Transform::Constants;
+use Data::Transfigure qw(concat_position);
+use Data::Transfigure::Position;
+use Data::Transfigure::Default;
+use Data::Transfigure::Constants;
 
 use experimental qw(signatures);
 
 my $book_1 = bless({id => 3, title => "War and Peace"},        'MyApp::Model::Result::Book');
 my $book_2 = bless({id => 4, title => "A Tale of Two Cities"}, 'MyApp::Model::Result::Book');
 
-my $d = Data::Transform::Position->new(
+my $d = Data::Transfigure::Position->new(
   position    => '/shelf/book',
-  transformer => Data::Transform::Default->new(
+  transfigurator => Data::Transfigure::Default->new(
     handler => sub ($entity) {
       return {title => $entity->{title}};
     }
@@ -43,16 +43,16 @@ is(
 is($d->applies_to(value => undef, position => concat_position($base, 'current')),
   $NO_MATCH, 'check position applies-to (wrong object)');
 
-is($d->transform($o->{shelf}->{book}), {title => 'War and Peace'}, 'check transform at position');
+is($d->transfigure($o->{shelf}->{book}), {title => 'War and Peace'}, 'check transfigure at position');
 
-$d = Data::Transform::Position->new(
+$d = Data::Transfigure::Position->new(
   position    => ['/attachment', '/elements/*/attachment', '/find/**/attachment'],
-  transformer => Data::Transform::Default->new(
+  transfigurator => Data::Transfigure::Default->new(
     handler => sub ($entity) {undef}
   )
 );
 
-is($d->applies_to(value => undef, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transform at position');
+is($d->applies_to(value => undef, position => concat_position($base, 'current')), $NO_MATCH, 'check complex transfigure at position');
 
 is($d->applies_to(value => undef, position => "/attachment"),    $MATCH_EXACT_POSITION | $MATCH_DEFAULT, "check attachment match");
 is($d->applies_to(value => undef, position => "/my_attachment"), $NO_MATCH, "check attachment non-match");

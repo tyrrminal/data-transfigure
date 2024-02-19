@@ -4,22 +4,22 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform;
+use Data::Transfigure;
 
-my $t = Data::Transform->bare();
-$t->add_transformers(qw(Data::Transform::HashKeys::CamelCase));
+my $t = Data::Transfigure->bare();
+$t->add_transfigurators(qw(Data::Transfigure::HashKeys::CamelCase));
 
 my $h = {id => 1};
 
-is($t->transform($h), {id => 1}, 'id key');
+is($t->transfigure($h), {id => 1}, 'id key');
 
 $h = {ID => 1};
 
-is($t->transform($h), {id => 1}, 'ID key');
+is($t->transfigure($h), {id => 1}, 'ID key');
 
 $h = {book_id => 1};
 
-is($t->transform($h), {bookId => 1}, '...Id key');
+is($t->transfigure($h), {bookId => 1}, '...Id key');
 
 $h = [
   {id => {table_id => 3}},
@@ -35,6 +35,6 @@ $h = [
   }
 ];
 
-is($t->transform($h), [{id => {tableId => 3}}, {list => ['book_id', 'id', 'table_id', 'ID', {myId => 3}]}], 'deep key rewrite');
+is($t->transfigure($h), [{id => {tableId => 3}}, {list => ['book_id', 'id', 'table_id', 'ID', {myId => 3}]}], 'deep key rewrite');
 
 done_testing;

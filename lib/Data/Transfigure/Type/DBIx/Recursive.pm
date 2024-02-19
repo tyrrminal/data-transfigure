@@ -1,29 +1,30 @@
-package Data::Transform::HashKeys::SnakeCase;
+package Data::Transfigure::Type::DBIx::Recursive;
 use v5.26;
 use warnings;
 
-# ABSTRACT: converts hash keys to lower_snake_case
+# ABSTRACT: transfigures DBIx::Class::Rows into hashrefs, traversing (some) relationships
 
 =head1 NAME
 
-Data::Transform::HashKeys::SnakeCase - converts hash keys to 
-lower_snake_case
+Data::Transfigure::Type::DBIx - transfigures DBIx::Class::Rows into hashrefs, 
+traversing (some) relationships
 
 =head1 DESCRIPTION
 
-C<Data::Transform::HashKeys::SnakeCase> is intended for cases where the
-backend policies require C<snake_case> but the frontend (and API) policies 
-dictate C<camelCase>. As a post-process transformer, adding it rewrites all of 
-the structure's hash keys to the proper format in that scenario.
+C<Data::Transfigure::Type::DBIx> is used to transfigure L<DBIx::Class::Row>
+instances into JSON-able structures, using C<get_inflated_columns> to get make
+a hashref from the object's keys (column names) and values.
+
+This transfigurator traverses to_one-type relationships, inserting the related
+object into the resulting hashref with its relationship name as the key, instead
+of the foreign key column name.
 
 =cut
 
 use Object::Pad;
 
-use Data::Transform::Tree;
-class Data::Transform::HashKeys::SnakeCase : does(Data::Transform::Tree) {
-  use Data::Transform         qw(hk_rewrite_cb);
-  use String::CamelSnakeKebab qw(lower_snake_case);
+use Data::Transfigure::Type;
+class Data::Transfigure::Type::DBIx::Recursive : isa(Data::Transfigure::Type) {
 
 =head1 FIELDS
 
@@ -33,8 +34,17 @@ I<none>
 
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      handler => sub ($entity) {
-        return hk_rewrite_cb($entity, \&lower_snake_case);
+      type    => q(DBIx::Class::Row),
+      handler => sub ($data) {
+        my %cols = $data->get_inflated_columns;
+        foreach my $rel ($data->result_source->relationships) {
+          my $info = $data->result_source->relationship_info($rel);
+          if ($info->{attrs}->{accessor} eq 'single') {
+            delete(@cols{keys($info->{attrs}->{fk_columns}->%*)});
+            $cols{$rel} = $data->$rel;
+          }
+        }
+        return {%cols};
       }
     );
   }

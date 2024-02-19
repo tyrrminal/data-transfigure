@@ -4,27 +4,27 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform;
-use Data::Transform::Predicate;
-use Data::Transform::Type;
+use Data::Transfigure;
+use Data::Transfigure::Predicate;
+use Data::Transfigure::Type;
 
 use experimental qw(signatures);
 
 my $predicate_toggle = 0;
 
-my $t = Data::Transform->new();
-$t->add_transformers(
-  Data::Transform::Type->new(
+my $t = Data::Transfigure->new();
+$t->add_transfigurators(
+  Data::Transfigure::Type->new(
     type    => 'MyApp::Book',
     handler => sub ($entity) {
       +{map {$_ => $entity->{$_}} qw(id)};
     }
   ),
-  Data::Transform::Predicate->new(
+  Data::Transfigure::Predicate->new(
     predicate => sub ($value, $position) {
       $predicate_toggle;
     },
-    transformer => Data::Transform::Type->new(
+    transfigurator => Data::Transfigure::Type->new(
       type    => 'MyApp::Book',
       handler => sub ($entity) {
         +{map {$_ => $entity->{$_}} qw(id title)};
@@ -34,8 +34,8 @@ $t->add_transformers(
 );
 
 my $book = bless({id => 2, title => 'War and Peace'}, 'MyApp::Book');
-is($t->transform({book => $book}), {book => {id => 2}}, 'Predicate non-match test');
+is($t->transfigure({book => $book}), {book => {id => 2}}, 'Predicate non-match test');
 $predicate_toggle = 1;
-is($t->transform({book => $book}), {book => {id => 2, title => 'War and Peace'}}, 'Predicate match test');
+is($t->transfigure({book => $book}), {book => {id => 2, title => 'War and Peace'}}, 'Predicate match test');
 
 done_testing;

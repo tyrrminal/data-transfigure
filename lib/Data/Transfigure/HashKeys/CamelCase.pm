@@ -1,39 +1,42 @@
-package Data::Transform::Default;
+package Data::Transfigure::HashKeys::CamelCase;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer class that matches anything at very low priority
+# ABSTRACT: converts hash keys to lowerCamelCase
 
-=encoding UTF-8
- 
 =head1 NAME
- 
-Data::Transform::Default - a transformer class that matches anything at very low 
-priority
+
+Data::Transfigure::HashKeys::CamelCase - converts hash keys to 
+lowerCamelCase
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Default> provides the facility for transforming values that
-no other registered transformer applies to 
+C<Data::Transfigure::HashKeys::CamelCase> is intended for cases where the
+backend policies require C<snake_case> but the frontend (and API) policies 
+dictate C<camelCase>. As a post-process transfigurator, adding it rewrites all of 
+the structure's hash keys to the proper format in that scenario.
 
 =cut
 
 use Object::Pad;
 
-class Data::Transform::Default : does(Data::Transform::Node) {
-  use Data::Transform::Constants;
+use Data::Transfigure::Tree;
+class Data::Transfigure::HashKeys::CamelCase : does(Data::Transfigure::Tree) {
+  use Data::Transfigure         qw(hk_rewrite_cb);
+  use String::CamelSnakeKebab qw(lower_camel_case);
 
-=head1 METHODS
+=head1 FIELDS
 
-=head2 applies_to( %params )
-
-Always returns C<$MATCH_DEFAULT> regardless of parameters
+I<none>
 
 =cut
 
-  method applies_to (%params) {
-    return $NO_MATCH if(ref($params{value}) eq 'HASH' || ref($params{value}) eq 'ARRAY');
-    return $MATCH_DEFAULT;
+  sub BUILDARGS ($class) {
+    $class->SUPER::BUILDARGS(
+      handler => sub ($entity) {
+        return hk_rewrite_cb($entity, \&lower_camel_case);
+      }
+    );
   }
 
 }

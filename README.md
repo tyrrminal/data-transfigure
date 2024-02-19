@@ -1,16 +1,16 @@
 # NAME
 
-Data::Transform - performs rule-based data transformations of arbitrary structures
+Data::Transfigure - performs rule-based data transfigurations of arbitrary structures
 
 # SYNOPSIS
 
-    use Data::Transform;
+    use Data::Transfigure;
 
-    my $d = Data::Transform->std();
-    $d->add_transformers(qw(
-      Data::Transform::Type::DateTime::Duration
-      Data::Transform::HashKeys::CamelCase
-    ), Data::Transform::Type->new(
+    my $d = Data::Transfigure->std();
+    $d->add_transfigurators(qw(
+      Data::Transfigure::Type::DateTime::Duration
+      Data::Transfigure::HashKeys::CamelCase
+    ), Data::Transfigure::Type->new(
       type    => 'Activity::Run'.
       handler => sub ($data) {
         {
@@ -27,7 +27,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
       { user_id => 4, ride => Activity::Ride->new(...) },
     ];
 
-    $d->transform($list); # [
+    $d->transfigure($list); # [
                           #   {
                           #     userID => 3
                           #     run    => {
@@ -45,7 +45,7 @@ Data::Transform - performs rule-based data transformations of arbitrary structur
 
 # DESCRIPTION
 
-`Data::Transform` allows you to write reusable rules ('transformers') to modify
+`Data::Transfigure` allows you to write reusable rules ('transfigurators') to modify
 parts (or all) of a data structure. There are many possible applications of this,
 but it was primarily written to handle converting object graphs of ORM objects
 into a structure that could be converted to JSON and delivered as an API endpoint
@@ -54,113 +54,113 @@ because many different controllers could need to convert the an object type to
 the same structure, but then other controllers might need to convert that same
 type to a different structure.
 
-A number of transformer roles and classes are included with this distribution:
+A number of transfigurator roles and classes are included with this distribution:
 
-- [Data::Transform::Node](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ANode)
-the root role which all transformers must implement
-- [Data::Transform::Default](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADefault)
-a low priority transformer that only applies when no other transformers do
-- [Data::Transform::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADefault%3A%3AToString)
-a transformer that stringifies any value that is not otherwise transformed
-- [Data::Transform::Type](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType)
-a transformer that matches against one or more data types
-- [Data::Transform::Type::DateTime](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADateTime)
-transforms DateTime objects to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) 
+- [Data::Transfigure::Node](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ANode)
+the root role which all transfigurators must implement
+- [Data::Transfigure::Default](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault)
+a low priority transfigurator that only applies when no other transfigurators do
+- [Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault%3A%3AToString)
+a transfigurator that stringifies any value that is not otherwise transfigured
+- [Data::Transfigure::Type](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType)
+a transfigurator that matches against one or more data types
+- [Data::Transfigure::Type::DateTime](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADateTime)
+transfigures DateTime objects to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) 
 format.
-- [Data::Transform::Type::DateTime::Duration](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADateTime%3A%3ADuration)
-transforms [DateTime::Duration](https://metacpan.org/pod/DateTime%3A%3ADuration) objects to 
+- [Data::Transfigure::Type::DateTime::Duration](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADateTime%3A%3ADuration)
+transfigures [DateTime::Duration](https://metacpan.org/pod/DateTime%3A%3ADuration) objects to 
 [ISO8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) (duration!) format
-- [Data::Transform::Type::DBIx](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADBIx)
-transforms [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value 
+- [Data::Transfigure::Type::DBIx](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADBIx)
+transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value 
 pairs. Does not recurse across relationships
-- [Data::Transform::Type::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AType%3A%3ADBIx%3A%3ARecursive)
-transforms [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value pairs,
+- [Data::Transfigure::Type::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AType%3A%3ADBIx%3A%3ARecursive)
+transfigures [DBIx::Class::Row](https://metacpan.org/pod/DBIx%3A%3AClass%3A%3ARow) instances into hashrefs of colname->value pairs,
 recursing down to\_one-type relationships
-- [Data::Transform::Value](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AValue)
-a transformer that matches against data values (exactly, by regex, or by coderef 
+- [Data::Transfigure::Value](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AValue)
+a transfigurator that matches against data values (exactly, by regex, or by coderef 
 callback)
-- [Data::Transform::Position](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APosition)
-a compound transformer that specifies one or more locations within the data 
-structure to apply to, in addition to whatever other criteria its transformer 
+- [Data::Transfigure::Position](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3APosition)
+a compound transfigurator that specifies one or more locations within the data 
+structure to apply to, in addition to whatever other criteria its transfigurator 
 specifies
-- [Data::Transform::Tree](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ATree)
-a transformer that is applied to the entire data structure after all 
-node transformations have been completed
-- [Data::Transform::HashKeys::CamelCase](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ACamelCase)
-a transformer that converts all hash keys in the data structure to 
+- [Data::Transfigure::Tree](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ATree)
+a transfigurator that is applied to the entire data structure after all 
+node transfigurations have been completed
+- [Data::Transfigure::HashKeys::CamelCase](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ACamelCase)
+a transfigurator that converts all hash keys in the data structure to 
 lowerCamelCase
-- [Data::Transform::HashKeys::SnakeCase](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ASnakeCase)
-a transformer that converts all hash keys in the data structure to 
+- [Data::Transfigure::HashKeys::SnakeCase](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ASnakeCase)
+a transfigurator that converts all hash keys in the data structure to 
 snake\_case
-- [Data::Transform::HashKeys::CapitalizedIDSuffix](https://metacpan.org/pod/Data%3A%3ATransform%3A%3AHashKeys%3A%3ACapitalizedIDSuffix)
-a transformer that converts "Id" at the end of hash keys (as results from 
+- [Data::Transfigure::HashKeys::CapitalizedIDSuffix](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3AHashKeys%3A%3ACapitalizedIDSuffix)
+a transfigurator that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
 # CONSTRUCTORS
 
-## Data::Transform->new()
+## Data::Transfigure->new()
 
 Constructs a new default instance that pre-adds 
-[Data::Transform::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADefault%3A%3AToString) to stringify values that are not otherwise
-transformed by user-provided transformers. Preserves (does not transform to 
+[Data::Transfigure::Default::ToString](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADefault%3A%3AToString) to stringify values that are not otherwise
+transfigured by user-provided transfigurators. Preserves (does not transfigure to 
 empty string) undefined values.
 
-## Data::Transform->bare()
+## Data::Transfigure->bare()
 
-Returns a "bare-bones" instance that has no builtin data transformers.
+Returns a "bare-bones" instance that has no builtin data transfigurators.
 
-## Data::Transform->dbix()
+## Data::Transfigure->dbix()
 
-Adds [Data::Transform::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ADBIx%3A%3ARecursive) to to handle `DBIx::Class` result rows
+Adds [Data::Transfigure::DBIx::Recursive](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ADBIx%3A%3ARecursive) to to handle `DBIx::Class` result rows
 
 # METHODS
 
-## add\_transformers( @list )
+## add\_transfigurators( @list )
 
-Registers one or more data transformers with the `Data::Transform` instance.
+Registers one or more data transfigurators with the `Data::Transfigure` instance.
 
-    $t->add_transformers(Data::Transform::Type->new(
+    $t->add_transfigurators(Data::Transfigure::Type->new(
       type    => 'DateTime',
       handler => sub ($data) {
         $data->strftime('%F')
       }
     ));
 
-Each element of `@list` must implement the [Data::Transform::Node](https://metacpan.org/pod/Data%3A%3ATransform%3A%3ANode) role, though
+Each element of `@list` must implement the [Data::Transfigure::Node](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3ANode) role, though
 these can either be strings containing class names or object instances.
 
-`Data::Transform` will automatically load class names passed in this list and 
+`Data::Transfigure` will automatically load class names passed in this list and 
 construct an object instance from that class. This will fail if the class's `new`
 constructor does not exist or has required parameters.
 
-    $t->add_transformers(qw(Data::Transform::Type::DateTime Data::Transform::Type::DBIx));
+    $t->add_transfigurators(qw(Data::Transfigure::Type::DateTime Data::Transfigure::Type::DBIx));
 
 ArrayRefs passed in this list will be expanded and their contents will be treated
 the same as any item passed directly to this method.
 
-    my $default = Data::Transform::Type::Default->new(
+    my $default = Data::Transfigure::Type::Default->new(
       handler => sub ($data) {
         "[$data]"
       }
     );
-    my $bundle = [q(Data::Transform::Type::DateTime), $default];
-    $t->add_transformers($bundle);
+    my $bundle = [q(Data::Transfigure::Type::DateTime), $default];
+    $t->add_transfigurators($bundle);
 
-When transforming data, only one transformer will be applied to each data element,
-prioritizing the most-specific types of matches. Among transformers that have 
+When transfiguring data, only one transfigurator will be applied to each data element,
+prioritizing the most-specific types of matches. Among transfigurators that have 
 equal match types, those added later have priority over those added earlier.
 
-## add\_transformer\_at( $position => $transformer )
+## add\_transfigurator\_at( $position => $transfigurator )
 
-`add_transformer_at` is a convenience method for creating and adding a 
-positional transformer (one that applies to a specific data-path within the given
+`add_transfigurator_at` is a convenience method for creating and adding a 
+positional transfigurator (one that applies to a specific data-path within the given
 structure) in a single step.
 
-See [Data::Transform::Position](https://metacpan.org/pod/Data%3A%3ATransform%3A%3APosition) for more on positional transformers.
+See [Data::Transfigure::Position](https://metacpan.org/pod/Data%3A%3ATransfigure%3A%3APosition) for more on positional transfigurators.
 
-## transform( $data )
+## transfigure( $data )
 
-Transforms the data according to the transformers added to the instance and 
+Transfigures the data according to the transfigurators added to the instance and 
 returns it. The data structure passed to the method is unmodified.
 
 # AUTHOR

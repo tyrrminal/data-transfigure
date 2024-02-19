@@ -1,30 +1,27 @@
-package Data::Transform::Type::DBIx::Recursive;
+package Data::Transfigure::HashKeys::CapitalizedIDSuffix;
 use v5.26;
 use warnings;
 
-# ABSTRACT: transforms DBIx::Class::Rows into hashrefs, traversing (some) relationships
+# ABSTRACT: a post-process transfigurator that rewrites hash keys to replace /Id$/ with ID
 
 =head1 NAME
 
-Data::Transform::Type::DBIx - transforms DBIx::Class::Rows into hashrefs, 
-traversing (some) relationships
+Data::Transfigure::HashKeys::CapitalizedIDSuffix - a post-process 
+transfigurator that rewrites hash keys to replace /Id$/ with ID
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Type::DBIx> is used to transform L<DBIx::Class::Row>
-instances into JSON-able structures, using C<get_inflated_columns> to get make
-a hashref from the object's keys (column names) and values.
-
-This transformer traverses to_one-type relationships, inserting the related
-object into the resulting hashref with its relationship name as the key, instead
-of the foreign key column name.
+C<Data::Transfigure::HashKeys::CapitalizedIDSuffix> addresses a side 
+effect of camelCasing keys, which is that keys like C<user_id> are transfigured
+into C<userId> when you might prefer them to be C<userID>
 
 =cut
 
 use Object::Pad;
 
-use Data::Transform::Type;
-class Data::Transform::Type::DBIx::Recursive : isa(Data::Transform::Type) {
+use Data::Transfigure::Tree;
+class Data::Transfigure::HashKeys::CapitalizedIDSuffix : does(Data::Transfigure::Tree) {
+  use Data::Transfigure qw(hk_rewrite_cb);
 
 =head1 FIELDS
 
@@ -34,17 +31,8 @@ I<none>
 
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      type    => q(DBIx::Class::Row),
-      handler => sub ($data) {
-        my %cols = $data->get_inflated_columns;
-        foreach my $rel ($data->result_source->relationships) {
-          my $info = $data->result_source->relationship_info($rel);
-          if ($info->{attrs}->{accessor} eq 'single') {
-            delete(@cols{keys($info->{attrs}->{fk_columns}->%*)});
-            $cols{$rel} = $data->$rel;
-          }
-        }
-        return {%cols};
+      handler => sub ($entity) {
+        return hk_rewrite_cb($entity, sub ($k) {$k =~ s/Id$/ID/r});
       }
     );
   }

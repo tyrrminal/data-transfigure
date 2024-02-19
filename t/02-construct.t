@@ -4,10 +4,10 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform;
+use Data::Transfigure;
 
-my $t = Data::Transform->bare();
+my $t = Data::Transfigure->bare();
 
-is(ref($t), 'Data::Transform', 'constructor');
+is(ref($t), 'Data::Transfigure', 'constructor');
 
 done_testing;

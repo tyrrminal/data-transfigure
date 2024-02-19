@@ -1,18 +1,18 @@
-package Data::Transform::Value;
+package Data::Transfigure::Value;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer that filters by node value
+# ABSTRACT: a transfigurator that filters by node value
 
 =encoding UTF-8
 
 =head1 NAME
 
-Data::Transform::Value - a transformer that filters by node value
+Data::Transfigure::Value - a transfigurator that filters by node value
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Value> is a transformer that applies to one or more node
+C<Data::Transfigure::Value> is a transfigurator that applies to one or more node
 values. It can either match exactly if the node value and the supplied value are
 equal, or it can match loosely if the supplied value is a compiled regular
 expression, or a callback CODEREF.
@@ -21,8 +21,8 @@ expression, or a callback CODEREF.
 
 use Object::Pad;
 
-class Data::Transform::Value : does(Data::Transform::Node) {
-  use Data::Transform::Constants;
+class Data::Transfigure::Value : does(Data::Transfigure::Node) {
+  use Data::Transfigure::Constants;
 
 =head1 FIELDS
 
@@ -36,7 +36,7 @@ reference, or a compiled regular expression.
   field $value : param;
 
   ADJUST {
-    die(ref($value) . ' is not acceptable for Data::Transform::Value(value)')
+    die(ref($value) . ' is not acceptable for Data::Transfigure::Value(value)')
       if (ref($value) && ref($value) ne 'CODE' && ref($value) ne 'Regexp');
   }
 
@@ -59,7 +59,7 @@ Returns C<$NO_MATCH> otherwise.
 =cut
 
   method applies_to (%params) {
-    die('value is a required parameter for Data::Transform::Value->applies_to') unless (exists($params{value}));
+    die('value is a required parameter for Data::Transfigure::Value->applies_to') unless (exists($params{value}));
     my $node = $params{value};
 
     return $MATCH_EXACT_VALUE if (!defined($node) && !defined($value));

@@ -1,24 +1,26 @@
-package Data::Transform::Default::ToString;
+package Data::Transfigure::Type::DateTime;
 use v5.26;
 use warnings;
 
-# ABSTRACT: default stringification of untransformed values
+# ABSTRACT: transfigure DateTime objects to ISO8601 format
 
 =head1 NAME
 
-Data::Transform::Default::ToString - default stringification of untransformed 
-values
+Data::Transfigure::Type::DateTime - transfigure DateTime objects to ISO8601 format
 
 =head1 DESCRIPTION
 
-This transformer unilaterally forces stringification of all the values in a 
-structure that no other transformer applies to, even undef.
+C<Data::Transfigure::Type::DateTime> transfigures DateTime objects to 
+L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601> format. This is the same 
+effect as stringification now, but is done explicitly e.g., in case DateTime 
+ever changes how it stringifies.
 
 =cut
 
 use Object::Pad;
 
-class Data::Transform::Default::ToString : isa(Data::Transform::Default) {
+use Data::Transfigure::Type;
+class Data::Transfigure::Type::DateTime : isa(Data::Transfigure::Type) {
 
 =head1 FIELDS
 
@@ -28,8 +30,9 @@ I<none>
 
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      handler => sub ($value) {
-        return "$value";
+      type    => q(DateTime),
+      handler => sub ($data) {
+        return $data->iso8601;
       }
     );
   }

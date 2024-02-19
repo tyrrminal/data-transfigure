@@ -5,10 +5,10 @@ use experimental qw(signatures);
 
 use Test2::V0;
 
-use Data::Transform::Type::DBIx::Recursive;
-use Data::Transform::Constants;
+use Data::Transfigure::Type::DBIx::Recursive;
+use Data::Transfigure::Constants;
 
-my $d = Data::Transform::Type::DBIx::Recursive->new();
+my $d = Data::Transfigure::Type::DBIx::Recursive->new();
 
 use FindBin qw($RealBin);
 use lib "$RealBin/lib";
@@ -21,11 +21,11 @@ my $book   = $schema->resultset('Book')->new({title => 'The Final Empire', autho
 ok($d->applies_to(value => $author), $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (person)');
 ok($d->applies_to(value => $book),   $MATCH_INHERITED_TYPE, 'check dbix-recursive applies_to (book)');
 
-ok($d->transform($author), {id => 1, firstname => 'Brandon', lastname => 'Sanderson'}, 'dbix-recursive transform (person)');
+ok($d->transfigure($author), {id => 1, firstname => 'Brandon', lastname => 'Sanderson'}, 'dbix-recursive transfigure (person)');
 ok(
-  $d->transform($book),
+  $d->transfigure($book),
   {id => 1, title => 'The Final Empire', author => {id => 1, firstname => 'Brandon'}},
-  'dbix-recursive transform (book)'
+  'dbix-recursive transfigure (book)'
 );
 
 done_testing;

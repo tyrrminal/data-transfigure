@@ -1,29 +1,27 @@
-package Data::Transform::HashKeys::CamelCase;
+package Data::Transfigure::Type::DateTime::Duration;
 use v5.26;
 use warnings;
 
-# ABSTRACT: converts hash keys to lowerCamelCase
+# ABSTRACT: transfigures DateTime::Duration objects to ISO8601 format
 
 =head1 NAME
 
-Data::Transform::HashKeys::CamelCase - converts hash keys to 
-lowerCamelCase
+Data::Transfigure::Type::DateTime::Duration - transfigures DateTime::Duration 
+objects to ISO8601 format
 
 =head1 DESCRIPTION
 
-C<Data::Transform::HashKeys::CamelCase> is intended for cases where the
-backend policies require C<snake_case> but the frontend (and API) policies 
-dictate C<camelCase>. As a post-process transformer, adding it rewrites all of 
-the structure's hash keys to the proper format in that scenario.
+C<Data::Transfigure::Type::DateTime::Duration> transfigures L<DateTime::Duration> 
+objects to  L<ISO8601|https://en.wikipedia.org/wiki/ISO_8601#Durations> 
+(duration!) format.
 
 =cut
 
 use Object::Pad;
 
-use Data::Transform::Tree;
-class Data::Transform::HashKeys::CamelCase : does(Data::Transform::Tree) {
-  use Data::Transform         qw(hk_rewrite_cb);
-  use String::CamelSnakeKebab qw(lower_camel_case);
+use Data::Transfigure::Type;
+class Data::Transfigure::Type::DateTime::Duration : isa(Data::Transfigure::Type) {
+  use DateTime::Format::Duration::ISO8601;
 
 =head1 FIELDS
 
@@ -33,8 +31,9 @@ I<none>
 
   sub BUILDARGS ($class) {
     $class->SUPER::BUILDARGS(
-      handler => sub ($entity) {
-        return hk_rewrite_cb($entity, \&lower_camel_case);
+      type    => q(DateTime::Duration),
+      handler => sub ($data) {
+        return DateTime::Format::Duration::ISO8601->format_duration($data);
       }
     );
   }

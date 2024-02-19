@@ -1,27 +1,27 @@
-package Data::Transform::Predicate;
+package Data::Transfigure::Predicate;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer that filters based on a predicate function
+# ABSTRACT: a transfigurator that filters based on a predicate function
 
 =encoding UTF-8
 
 =head1 NAME
 
-Data::Transform::Type - a transformer that filters based on a predicate function
+Data::Transfigure::Type - a transfigurator that filters based on a predicate function
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Predicate> is a transformer that uses a predicate predicate
+C<Data::Transfigure::Predicate> is a transfigurator that uses a predicate predicate
 function to determine whether it applies. This allows extrinsic logic to be 
-applied to select appropriate transformers.
+applied to select appropriate transfigurators.
 
 =cut
 
 use Object::Pad;
 
-class Data::Transform::Predicate : does(Data::Transform::Node) {
-  use Data::Transform::Constants;
+class Data::Transfigure::Predicate : does(Data::Transfigure::Node) {
+  use Data::Transfigure::Constants;
 
 =head1 FIELDS
 
@@ -30,17 +30,17 @@ class Data::Transform::Predicate : does(Data::Transform::Node) {
 The predicate function. Must be a CODE refereence. Receives the node value and
 position as parameters and returns a simple true/false value.
 
-=head2 transformer (required parameter)
+=head2 transfigurator (required parameter)
 
-A C<Data::Transform> transformer conforming to the C<Data::Transform::Node> 
+A C<Data::Transfigure> transfigurator conforming to the C<Data::Transfigure::Node> 
 role. Weird things will happen if you provide a 
-C<Data::Transform::Tree> -type transformer, so you probably shouldn't do
+C<Data::Transfigure::Tree> -type transfigurator, so you probably shouldn't do
 that.
 
 =cut
 
   field $predicate :param;
-  field $transformer :param;
+  field $transfigurator :param;
 
   ADJUST {
     die("predicate must be a CODEREF") unless(ref($predicate) eq 'CODE');
@@ -49,9 +49,9 @@ that.
   sub BUILDARGS ($class, %params) {
     $class->SUPER::BUILDARGS(
       predicate    => $params{predicate},
-      transformer => $params{transformer},
+      transfigurator => $params{transfigurator},
       handler     => sub (@args) {
-        $params{transformer}->transform(@args);
+        $params{transfigurator}->transfigure(@args);
       }
     );
   }
@@ -70,14 +70,14 @@ Otherwise returns C<$NO_MATCH>.
 =cut
 
   method applies_to (%params) {
-    die('value is a required parameter for Data::Transform::Predicate->applies_to') unless (exists($params{value}));
-    die('position is a required parameter for Data::Transform::Predicate->applies_to') unless(exists($params{position}));
+    die('value is a required parameter for Data::Transfigure::Predicate->applies_to') unless (exists($params{value}));
+    die('position is a required parameter for Data::Transfigure::Predicate->applies_to') unless(exists($params{position}));
     my $node = $params{value};
     my $position = $params{value};
     
     my $cbv = $predicate->($node, $position);
 
-    return $transformer->applies_to(%params) if($cbv);
+    return $transfigurator->applies_to(%params) if($cbv);
     return $NO_MATCH; 
   }
 

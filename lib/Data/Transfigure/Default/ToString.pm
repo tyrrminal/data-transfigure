@@ -1,64 +1,39 @@
-package Data::Transform::Node;
+package Data::Transfigure::Default::ToString;
 use v5.26;
 use warnings;
 
-# ABSTRACT: the root role which all Data::Transform transformers must implement
+# ABSTRACT: default stringification of untransfigured values
 
-=encoding UTF-8
- 
 =head1 NAME
- 
-Data::Transform::Node - the root role which all Data::Transform transformers 
-must implement
+
+Data::Transfigure::Default::ToString - default stringification of untransfigured 
+values
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Node> must be implemented by all transformers used by 
-L<Data::Transform>
+This transfigurator unilaterally forces stringification of all the values in a 
+structure that no other transfigurator applies to, even undef.
 
 =cut
 
 use Object::Pad;
 
-role Data::Transform::Node {
+class Data::Transfigure::Default::ToString : isa(Data::Transfigure::Default) {
 
 =head1 FIELDS
 
-=head2 handler (required param)
-
-The handler param accepts a CODEREF/anonymous subroutine which itself receives 
-a single parameter, the data element to transform, and is expected to return the
-transformed value.
+I<none>
 
 =cut
 
-  field $handler : param;
-
-=head1 METHODS
-
-=head2 applies_to( %params )
-
-C<applies_to> is required to be supplied by classes implementing this role.
-
-This method recieves a param hash with keys C<value> and C<position> and returns
-a constant from C<Data::Transform::Constants> reflecting what degree
-of match, if any, the transformer has to that node. Higher values are better 
-matches.
-
-=cut
-
-  method applies_to;
-
-=head2 transform( @args )
-
-Executes the handler on the data element. Typically this shouldn't be called
-manually or need to be overridden by subclasses.
-
-=cut
-
-  method transform (@args) {
-    return $handler->(@args);
+  sub BUILDARGS ($class) {
+    $class->SUPER::BUILDARGS(
+      handler => sub ($value) {
+        return "$value";
+      }
+    );
   }
+
 }
 
 =pod

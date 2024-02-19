@@ -4,12 +4,12 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform::Default;
-use Data::Transform::Constants;
+use Data::Transfigure::Default;
+use Data::Transfigure::Constants;
 
 use experimental qw(signatures);
 
-my $d = Data::Transform::Default->new(
+my $d = Data::Transfigure::Default->new(
   handler => sub ($entity) {
     return 'SCALAR';
   }
@@ -27,21 +27,21 @@ is($d->applies_to(value => $o->{a}), $MATCH_DEFAULT, 'default match of scalar (a
 is($d->applies_to(value => $o->{b}), $MATCH_DEFAULT, 'default match of scalar (b => 2)');
 is($d->applies_to(value => $o->{c}), $MATCH_DEFAULT, 'default match of scalar (c => custom class instance)');
 
-is($d->transform($o),      'SCALAR', 'basic default transform (hash)');
-is($d->transform($o->{a}), 'SCALAR', 'basic default transform (a)');
-is($d->transform($o->{b}), 'SCALAR', 'basic default transform (b)');
-is($d->transform($o->{c}), 'SCALAR', 'basic default transform (c)');
+is($d->transfigure($o),      'SCALAR', 'basic default transfigure (hash)');
+is($d->transfigure($o->{a}), 'SCALAR', 'basic default transfigure (a)');
+is($d->transfigure($o->{b}), 'SCALAR', 'basic default transfigure (b)');
+is($d->transfigure($o->{c}), 'SCALAR', 'basic default transfigure (c)');
 
-$d = Data::Transform::Default->new(
+$d = Data::Transfigure::Default->new(
   handler => sub ($entity) {
     return 'OBJECT' if (ref($entity));
     return "$entity";
   }
 );
 
-is($d->transform($o),      'OBJECT', 'deobjectifying default transform (hash)');
-is($d->transform($o->{a}), "1",      'deobjectifying default transform (a)');
-is($d->transform($o->{b}), "2",      'deobjectifying default transform (b)');
-is($d->transform($o->{c}), 'OBJECT', 'deobjectifying default transform (c)');
+is($d->transfigure($o),      'OBJECT', 'deobjectifying default transfigure (hash)');
+is($d->transfigure($o->{a}), "1",      'deobjectifying default transfigure (a)');
+is($d->transfigure($o->{b}), "2",      'deobjectifying default transfigure (b)');
+is($d->transfigure($o->{c}), 'OBJECT', 'deobjectifying default transfigure (c)');
 
 done_testing;

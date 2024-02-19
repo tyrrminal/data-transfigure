@@ -5,14 +5,14 @@ use experimental qw(signatures);
 
 use Test2::V0;
 
-use Data::Transform::Type;
-use Data::Transform::Tree;
+use Data::Transfigure::Type;
+use Data::Transfigure::Tree;
 use List::Util qw(sum);
 use Object::Pad;
 
-class Data::Transform::Tree::Test : does(Data::Transform::Tree) {}
+class Data::Transfigure::Tree::Test : does(Data::Transfigure::Tree) {}
 
-my $count_values = Data::Transform::Tree::Test->new(
+my $count_values = Data::Transfigure::Tree::Test->new(
   handler => sub ($o) {
     if (ref($o) eq 'ARRAY') {
       return sum map {__SUB__->($_)} $o->@*;
@@ -23,6 +23,6 @@ my $count_values = Data::Transform::Tree::Test->new(
   }
 );
 
-is($count_values->transform({a => 1, b => 2, c => {d => 4}}), 3, 'count values recursive');
+is($count_values->transfigure({a => 1, b => 2, c => {d => 4}}), 3, 'count values recursive');
 
 done_testing;

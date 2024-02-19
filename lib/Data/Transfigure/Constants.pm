@@ -1,45 +1,65 @@
-package Data::Transform::Type::DBIx;
+package Data::Transfigure::Constants;
 use v5.26;
 use warnings;
 
-# ABSTRACT: transforms DBIx::Class::Rows into hashrefs
+# ABSTRACT: defines constants used by Data::Transfigure and its transfigurators
 
 =head1 NAME
 
-Data::Transform::Type::DBIx - transforms DBIx::Class::Rows into hashrefs
+Data::Transfigure::Constants;
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Type::DBIx> is used to transform L<DBIx::Class::Row>
-instances into JSON-able structures, using C<get_inflated_columns> to get make
-a hashref from the object's keys (column names) and values.
+Defines the following constants, in ascending value order:
 
-This transformer does not traverse relationships, and instead just outputs the 
-foreign key column's name and id value.
+=over
+
+=item $NO_MATCH
+
+=item $MATCH_DEFAULT
+
+=item $MATCH_INHERITED_TYPE
+
+=item $MATCH_EXACT_TYPE
+
+=item $MATCH_LIKE_VALUE
+
+=item $MATCH_EXACT_VALUE
+
+=item $MATCH_WILDCARD_POSITION
+
+=item $MATCH_EXACT_POSITION
+
+=item $MATCH_EXACT
+
+=back
 
 =cut
 
-use Object::Pad;
+use Exporter qw(import);
+use Readonly;
 
-use Data::Transform::Type;
-class Data::Transform::Type::DBIx : isa(Data::Transform::Type) {
+our @EXPORT = qw(
+  $NO_MATCH
+  $MATCH_DEFAULT
+  $MATCH_INHERITED_TYPE
+  $MATCH_EXACT_TYPE
+  $MATCH_LIKE_VALUE
+  $MATCH_EXACT_VALUE
+  $MATCH_WILDCARD_POSITION
+  $MATCH_EXACT_POSITION
+  $MATCH_EXACT
+);
 
-=head1 FIELDS
-
-I<none>
-
-=cut
-
-  sub BUILDARGS ($class) {
-    $class->SUPER::BUILDARGS(
-      type    => qw(DBIx::Class::Row),
-      handler => sub ($data) {
-        return {$data->get_inflated_columns};
-      }
-    );
-  }
-
-}
+Readonly::Scalar our $NO_MATCH                => -1;
+Readonly::Scalar our $MATCH_DEFAULT           => 0b00000001;
+Readonly::Scalar our $MATCH_INHERITED_TYPE    => 0b00000010;
+Readonly::Scalar our $MATCH_EXACT_TYPE        => 0b00000100;
+Readonly::Scalar our $MATCH_LIKE_VALUE        => 0b00001000;
+Readonly::Scalar our $MATCH_EXACT_VALUE       => 0b00010000;
+Readonly::Scalar our $MATCH_WILDCARD_POSITION => 0b00100000;
+Readonly::Scalar our $MATCH_EXACT_POSITION    => 0b01000000;
+Readonly::Scalar our $MATCH_EXACT             => 0b10000000;
 
 =pod
 

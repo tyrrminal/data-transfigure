@@ -4,9 +4,9 @@ use warnings;
 
 use Test2::V0;
 
-use Data::Transform::Predicate;
-use Data::Transform::Type;
-use Data::Transform::Constants;
+use Data::Transfigure::Predicate;
+use Data::Transfigure::Type;
+use Data::Transfigure::Constants;
 
 use experimental qw(signatures);
 
@@ -14,18 +14,18 @@ my $book = bless({id => 1, title => 'War and Peace'}, 'MyApp::Model::Result::Boo
 
 my $toggle = 0;
 
-my $type = Data::Transform::Type->new(
+my $type = Data::Transfigure::Type->new(
   type => 'MyApp::Model::Result::Book',
   handler => sub ($entity) {
     return {id => $entity->title}
   }
 );
 
-my $predicate = Data::Transform::Predicate->new(
+my $predicate = Data::Transfigure::Predicate->new(
   predicate => sub ($value, $position) {
     return $toggle
   },
-  transformer => Data::Transform::Type->new(
+  transfigurator => Data::Transfigure::Type->new(
     type => 'MyApp::Model::Result::Book',
     handler => sub ($entity) {
       +{ 

@@ -1,36 +1,36 @@
-package Data::Transform::Tree;
+package Data::Transfigure::Tree;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a transformer that is applied to the entire data structure
+# ABSTRACT: a transfigurator that is applied to the entire data structure
 
 =head1 NAME
 
-Data::Transform::Tree - a transformer that is applied to the entire data 
-structure, after all "node" transformations have been completed
+Data::Transfigure::Tree - a transfigurator that is applied to the entire data 
+structure, after all "node" transfigurations have been completed
 
 =head1 DESCRIPTION
 
-C<Data::Transform::Tree> transformers are used to "clean-up" the data
-structure after all other transformations have been applied. 
+C<Data::Transfigure::Tree> transfigurators are used to "clean-up" the data
+structure after all other transfigurations have been applied. 
 
 =cut
 
 use Object::Pad;
 
-role Data::Transform::Tree  {
+role Data::Transfigure::Tree  {
   field $handler :param;
 
 =head1 METHODS
 
-=head2 transform( @args )
+=head2 transfigure( @args )
 
 Executes the handler on the entire data structure. Typically this shouldn't be 
 called manually or need to be overridden by subclasses.
 
 =cut
 
-  method transform (@args) {
+  method transfigure (@args) {
     return $handler->(@args);
   }
 

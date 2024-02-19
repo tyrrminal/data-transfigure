@@ -5,11 +5,11 @@ use warnings;
 use Test2::V0;
 use Test2::Tools::Exception qw(dies);
 
-use Data::Transform qw(concat_position);
+use Data::Transfigure qw(concat_position);
 
 like(
   dies {concat_position()},
-  qr/Too few arguments for subroutine 'Data::Transform::concat_position'/,
+  qr/Too few arguments for subroutine 'Data::Transfigure::concat_position'/,
   'no arguments to concat_position'
 );
 

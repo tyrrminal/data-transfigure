@@ -1,40 +1,39 @@
-package Data::Transform::HashKeys::CapitalizedIDSuffix;
+package Data::Transfigure::Default;
 use v5.26;
 use warnings;
 
-# ABSTRACT: a post-process transformer that rewrites hash keys to replace /Id$/ with ID
+# ABSTRACT: a transfigurator class that matches anything at very low priority
 
+=encoding UTF-8
+ 
 =head1 NAME
-
-Data::Transform::HashKeys::CapitalizedIDSuffix - a post-process 
-transformer that rewrites hash keys to replace /Id$/ with ID
+ 
+Data::Transfigure::Default - a transfigurator class that matches anything at very low 
+priority
 
 =head1 DESCRIPTION
 
-C<Data::Transform::HashKeys::CapitalizedIDSuffix> addresses a side 
-effect of camelCasing keys, which is that keys like C<user_id> are transformed
-into C<userId> when you might prefer them to be C<userID>
+C<Data::Transfigure::Default> provides the facility for transfiguring values that
+no other registered transfigurator applies to 
 
 =cut
 
 use Object::Pad;
 
-use Data::Transform::Tree;
-class Data::Transform::HashKeys::CapitalizedIDSuffix : does(Data::Transform::Tree) {
-  use Data::Transform qw(hk_rewrite_cb);
+class Data::Transfigure::Default : does(Data::Transfigure::Node) {
+  use Data::Transfigure::Constants;
 
-=head1 FIELDS
+=head1 METHODS
 
-I<none>
+=head2 applies_to( %params )
+
+Always returns C<$MATCH_DEFAULT> regardless of parameters
 
 =cut
 
-  sub BUILDARGS ($class) {
-    $class->SUPER::BUILDARGS(
-      handler => sub ($entity) {
-        return hk_rewrite_cb($entity, sub ($k) {$k =~ s/Id$/ID/r});
-      }
-    );
+  method applies_to (%params) {
+    return $NO_MATCH if(ref($params{value}) eq 'HASH' || ref($params{value}) eq 'ARRAY');
+    return $MATCH_DEFAULT;
   }
 
 }

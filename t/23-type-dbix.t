@@ -5,10 +5,10 @@ use experimental qw(signatures);
 
 use Test2::V0;
 
-use Data::Transform::Type::DBIx;
-use Data::Transform::Constants;
+use Data::Transfigure::Type::DBIx;
+use Data::Transfigure::Constants;
 
-my $d = Data::Transform::Type::DBIx->new();
+my $d = Data::Transfigure::Type::DBIx->new();
 
 use FindBin qw($RealBin);
 use lib "$RealBin/lib";
@@ -22,7 +22,7 @@ ok($d->applies_to(value => bless({}, 'MyClass')), $NO_MATCH,             'check 
 ok($d->applies_to(value => $book),                $MATCH_INHERITED_TYPE, 'check dbix applies_to (book)');
 ok($d->applies_to(value => $author),              $MATCH_INHERITED_TYPE, 'check dbix applies_to (person)');
 
-ok($d->transform($book),   {id => 1, title     => 'The Final Empire', author_id => 1}, 'non-recursive dbix transform (book)');
-ok($d->transform($author), {id => 1, firstname => 'Brandon', lastname => 'Sanderson'}, 'non-recursive dbix transform (person)');
+ok($d->transfigure($book),   {id => 1, title     => 'The Final Empire', author_id => 1}, 'non-recursive dbix transfigure (book)');
+ok($d->transfigure($author), {id => 1, firstname => 'Brandon', lastname => 'Sanderson'}, 'non-recursive dbix transfigure (person)');
 
 done_testing;

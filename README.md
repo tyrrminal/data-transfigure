@@ -95,6 +95,9 @@ snake\_case
 - [Data::Transfigure::HashKeys::CapitalizedIDSuffix](https://metacpan.org/pod/Data::Transfigure::HashKeys::CapitalizedIDSuffix)
 a transfigurator that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
+- [Data::Transfigure::HashFilter::Undef](https://metacpan.org/pod/Data::Transfigure::HashFilter::Undef)
+a transfigurator that removes key/value pairs where the value is undefined and
+the key matches a certain pattern
 
 # CONSTRUCTORS
 
@@ -169,7 +172,7 @@ Mark Tyrrell `<mark@tyrrminal.dev>`
 
 # LICENSE
 
-Copyright (c) 2023 Mark Tyrrell
+Copyright (c) 2024 Mark Tyrrell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

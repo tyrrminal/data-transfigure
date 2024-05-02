@@ -123,6 +123,10 @@ lowerCamelCase conversion) to "ID"
 a transfigurator that removes key/value pairs where the value is undefined and
 the key matches a certain pattern
 
+=item * L<Data::Transfigure::Tree::Merge>
+a transfigurator that expands marked hash keys' HashRef values into the enclosing
+hash, overwriting common keys
+
 =back
 
 =cut

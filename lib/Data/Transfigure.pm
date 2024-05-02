@@ -119,6 +119,10 @@ snake_case
 a transfigurator that converts "Id" at the end of hash keys (as results from 
 lowerCamelCase conversion) to "ID"
 
+=item * L<Data::Transfigure::HashFilter::Undef>
+a transfigurator that removes key/value pairs where the value is undefined and
+the key matches a certain pattern
+
 =back
 
 =cut

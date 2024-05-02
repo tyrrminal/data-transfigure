@@ -12,7 +12,7 @@ Data::Transfigure::Type - a transfigurator that filters based on a predicate fun
 
 =head1 DESCRIPTION
 
-C<Data::Transfigure::Predicate> is a transfigurator that uses a predicate predicate
+C<Data::Transfigure::Predicate> is a transfigurator that uses a predicate
 function to determine whether it applies. This allows extrinsic logic to be 
 applied to select appropriate transfigurators.
 
